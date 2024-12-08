@@ -1,16 +1,35 @@
 package com.whut.backend.controller;
 
 
+import com.whut.backend.POJO.UserData;
+import com.whut.backend.service.UserService;
+import org.apache.ibatis.annotations.AutomapConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-//@RequestMapping("/api")
+@RequestMapping("/api")
 public class UserController {
+    private final UserService UserService;
+    @Autowired
+    public UserController(com.whut.backend.service.UserService userService) {
+        UserService = userService;
+    }
+
+
     @ResponseBody
-    @GetMapping("/login")
-    public String login() {
-        return "ok";
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserData userData) {
+        String username = userData.getUsername();
+        String password = userData.getPassword();
+        boolean login = UserService.login(username, password);
+        if (login) {
+            return ResponseEntity.ok("Login success");
+        } else {
+            return ResponseEntity.badRequest().body("Login failed");
+        }
     }
 
 }
