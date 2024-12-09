@@ -1,9 +1,9 @@
 package com.whut.backend.controller;
 
 
+import com.whut.backend.POJO.RegisterData;
 import com.whut.backend.POJO.UserData;
 import com.whut.backend.service.UserService;
-import org.apache.ibatis.annotations.AutomapConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,6 +29,20 @@ public class UserController {
             return ResponseEntity.ok("Login success");
         } else {
             return ResponseEntity.badRequest().body("Login failed");
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterData registerData) {
+        String username = registerData.getUsername();
+        String password = registerData.getPassword();
+        String email = registerData.getEmail();
+        boolean register = UserService.register(username, password, email);
+        if (register) {
+            return ResponseEntity.ok("Register success");
+        } else {
+            return ResponseEntity.badRequest().body("Register failed");
         }
     }
 

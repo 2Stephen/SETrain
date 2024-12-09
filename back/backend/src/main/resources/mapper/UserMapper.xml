@@ -8,4 +8,16 @@
         SELECT * FROM user
         WHERE (username = #{username} OR email = #{username} )AND password = #{password}
     </select>
+    <select id="findByUsername" resultType="com.whut.backend.entity.User">
+        SELECT * FROM user
+        WHERE username = #{username}
+    </select>
+    <select id="findByEmail" resultType="com.whut.backend.entity.User">
+        SELECT * FROM user
+        WHERE email = #{email}
+    </select>
+    <insert id="insert" parameterType="com.whut.backend.entity.User" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user(username, password, email)
+        VALUES(#{username}, #{password}, #{email})
+    </insert>
 </mapper>

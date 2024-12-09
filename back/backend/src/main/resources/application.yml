@@ -11,6 +11,10 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto  # 自动设置主键为自增
+
 
 pagehelper:
   propertyName: propertyValue

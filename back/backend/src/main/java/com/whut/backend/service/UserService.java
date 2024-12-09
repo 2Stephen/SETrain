@@ -6,5 +6,7 @@ import com.whut.backend.entity.User;
 public interface UserService extends IService<User> {
     // login
     boolean login(String username, String password);
+    // register
+    boolean register(String username, String password, String email);
 
 }
