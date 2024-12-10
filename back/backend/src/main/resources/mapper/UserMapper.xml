@@ -3,19 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.whut.backend.mapper.UserMapper">
-<!--    邮箱或者用户名-->
+    <!--邮箱或者用户名登录验证-->
     <select id="login"  resultType="com.whut.backend.entity.User">
         SELECT * FROM user
         WHERE (username = #{username} OR email = #{username} )AND password = #{password}
     </select>
+
+    <!--查找是否存在这个用户名，注册查重需要-->
     <select id="findByUsername" resultType="com.whut.backend.entity.User">
         SELECT * FROM user
         WHERE username = #{username}
     </select>
+
+    <!--查找是否存在这个email，注册查重需要-->
     <select id="findByEmail" resultType="com.whut.backend.entity.User">
         SELECT * FROM user
         WHERE email = #{email}
     </select>
+
+    <!--注册插入用户-->
     <insert id="insert" parameterType="com.whut.backend.entity.User" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO user(username, password, email)
         VALUES(#{username}, #{password}, #{email})

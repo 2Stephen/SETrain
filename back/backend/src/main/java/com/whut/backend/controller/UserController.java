@@ -17,8 +17,6 @@ public class UserController {
     public UserController(com.whut.backend.service.UserService userService) {
         UserService = userService;
     }
-
-
     @ResponseBody
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserData userData) {
