@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
     private final UserService UserService;
     @Autowired
