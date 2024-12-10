@@ -7,13 +7,29 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 2432757689
-
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: UTF-8
+    username: 2432757689@qq.com
+    password: dwvhnjzitraudiej
+    nickname: SETrain
+    properties:
+      mail.smtp.auth: true #启用SMTP服务器的身份验证，这是为了确保只有合法用户可以发送邮件。
+      mail.smtp.starttls.enable: #启用TLS加密，这是为了确保邮件传输的安全性。
+      mail.smtp.starttls.required: true #要求使用TLS加密，如果连接不是通过TLS加密传输，则断开连接。
+  redis:
+    host: localhost
+    port: 6379
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   global-config:
     db-config:
       id-type: auto  # 自动设置主键为自增
+
+
+
 
 
 pagehelper:

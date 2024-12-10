@@ -26,4 +26,10 @@
         INSERT INTO user(username, password, email)
         VALUES(#{username}, #{password}, #{email})
     </insert>
+
+    <!--根据id修改密码-->
+    <update id="updateById" parameterType="com.whut.backend.entity.User">
+        UPDATE user SET password = #{password} WHERE id = #{id}
+    </update>
+
 </mapper>
