@@ -3,6 +3,7 @@ package com.whut.backend.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.whut.backend.entity.Bank;
 import com.whut.backend.entity.Question;
 import com.whut.backend.mapper.QuestionMapper;
 import com.whut.backend.service.QuestionService;
@@ -23,5 +24,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         List<Question> question = QuestionMapper.getQuestionList(index);
         return new PageInfo<>(question);
 
+    }
+
+    @Override
+    public List<Bank> getBankList() {
+        return QuestionMapper.getBankList();
     }
 }
