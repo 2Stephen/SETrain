@@ -8,5 +8,10 @@ public interface UserService extends IService<User> {
     boolean login(String username, String password);
     // register
     boolean register(String username, String password, String email);
+    // 获取是否存在邮箱
+    boolean containsEmail(String email);
+    // 修改密码
+    boolean changePwd(String email, String password);
+
 
 }

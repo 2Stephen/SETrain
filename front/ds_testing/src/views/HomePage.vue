@@ -2,11 +2,29 @@
   <el-container style="height: 100vh;">
 
     <el-header
-      style="background-color: #409EFF; color: white; display: flex; justify-content: space-between; align-items: center;">
-      <div class="header-title">数据结构题库系统</div>
-      <el-header style="display: flex;justify-content: flex-end;align-items: center;">
-        <el-button type="primary" plain @click="clickToHome">首页</el-button>
-      </el-header>
+      style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex;justify-content: flex-start;align-items: center;">
+        <div class="header-title">数据结构题库系统</div>
+        <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
+          style="width:30rem;display: flex;align-items: center;" default-active="1">
+          <el-menu-item index="1" @click="click">首页</el-menu-item>
+          <el-menu-item index="2">题库</el-menu-item>
+          <el-sub-menu index="3"><template #title>帮助</template>
+            <el-menu-item index="3-1">快速入门</el-menu-item>
+            <el-menu-item index="3-2">常见问题</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
+      </div>
+
+      <div style="display: flex;justify-content: flex-end;align-items: center;">
+        <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
+          <template #append>
+            <el-button type="primary" @click=""><el-icon>
+                <Search />
+              </el-icon></el-button>
+          </template>
+        </el-input>
+      </div>
     </el-header>
 
     <el-container>
@@ -43,15 +61,13 @@
 </template>
 
 <script>
+import request from '@/api/request';
+
 export default {
   data() {
     return {
       activeMenu: "1",
       questions: [
-        { id: 1, title: "顺序表的基本操作", description: "实现顺序表的插入和删除操作。" },
-        { id: 2, title: "二叉树的遍历", description: "实现二叉树的前序、中序和后序遍历。" },
-        { id: 3, title: "图的最短路径", description: "使用 Dijkstra 算法求解图的最短路径问题。" },
-        // 更多题目...
       ],
     };
   },
@@ -70,16 +86,20 @@ export default {
       console.log("查看题目详情，题目 ID:", questionId);
       this.$router.push('/question/${questionId}'); // 跳转到题目详情页面
     },
-    // 根据分类加载不同题目
-    // loadQuestionsByCategory(index) {
-    //   axios.get('http://192.168.35.214:8082/api/questions/category/${index}')
-    //     .then(response => {
-    //       this.questions = response.data;
-    //     })
-    //     .catch(error => {
-    //       console.error("加载分类题目失败:", error);
-    //     });
-    // },
+    //根据分类加载不同题目
+    loadQuestionsByCategory(index) {
+      request.get('/question/bankindex', {
+        params: {
+          index: index
+        }
+      })
+        .then(response => {
+          this.questions = response.data;
+        })
+        .catch(error => {
+          console.error("加载当前题库中的题目失败:", error);
+        });
+    },
 
 
   },

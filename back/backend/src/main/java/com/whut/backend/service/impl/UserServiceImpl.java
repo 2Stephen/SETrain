@@ -37,4 +37,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return false;
     }
+
+    @Override
+    public boolean containsEmail(String email) {
+        User user = userMapper.findByEmail(email);
+        return user != null;
+    }
+
+    @Override
+    public boolean changePwd(String email, String password) {
+        User user = userMapper.findByEmail(email);
+        if(user != null) {
+            int res = userMapper.updateById(user.getId(), password);
+            return res == 1;
+        }
+        return false;
+    }
 }
