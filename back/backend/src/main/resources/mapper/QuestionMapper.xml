@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.backend.mapper.QuestionMapper">
+    <!--通过index从question_bank_question找到questionid，在question表找到对应题目-->
+    <select id="getQuestionList" resultType="com.whut.backend.entity.Question">
+        SELECT
+            question.id,
+            question.title,
+            question.tags,
+            question.userId
+        FROM question
+        JOIN question_bank_question
+        ON question.id = question_bank_question.questionId
+        WHERE question_bank_question.questionBankId = #{index}
+    </select>
+</mapper>
