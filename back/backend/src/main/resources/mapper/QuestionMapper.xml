@@ -8,11 +8,15 @@
         SELECT
             question.id,
             question.title,
-            question.tags,
-            question.userId
+            question.tags
         FROM question
         JOIN question_bank_question
         ON question.id = question_bank_question.questionId
         WHERE question_bank_question.questionBankId = #{index}
+    </select>
+<!--    获取题库列表-->
+    <select id="getBankList" resultType="com.whut.backend.entity.Bank">
+        SELECT id, title
+        FROM question_bank
     </select>
 </mapper>

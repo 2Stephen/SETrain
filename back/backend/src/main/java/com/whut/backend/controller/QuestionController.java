@@ -2,6 +2,7 @@ package com.whut.backend.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.whut.backend.entity.Bank;
 import com.whut.backend.entity.Question;
 import com.whut.backend.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,19 @@ public class QuestionController {
         this.questionService = questionService;
     }
     @ResponseBody
-    @GetMapping("/bankindex")
-    public ResponseEntity<List<Question>> bankIndex(
+    @GetMapping("/paginatedquestions")
+    public ResponseEntity<PageInfo<Question>> bankIndex(
             @RequestParam Integer index,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "8") Integer pagesize) {
         PageInfo<Question> questionList = questionService.getQuestionList(index, page, pagesize);
-        return ResponseEntity.ok(questionList.getList());
+        return ResponseEntity.ok(questionList);
+    }
+
+    @ResponseBody
+    @GetMapping("/getbanklist")
+    public ResponseEntity<List<Bank>> banks() {
+        List<Bank> bankList = questionService.getBankList();
+        return ResponseEntity.ok(bankList);
     }
 }
