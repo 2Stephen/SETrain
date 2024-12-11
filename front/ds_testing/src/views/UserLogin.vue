@@ -7,8 +7,8 @@
           <div class="header-title">数据结构题库系统</div>
           <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
             style="width:30rem;display: flex;align-items: center;" default-active="1">
-            <el-menu-item index="1">首页</el-menu-item>
-            <el-menu-item index="2">题库</el-menu-item>
+            <el-menu-item index="1" @click="clickToIndex">首页</el-menu-item>
+            <el-menu-item index="2" @click="clickToHome">题库</el-menu-item>
             <el-sub-menu index="3"><template #title>帮助</template>
               <el-menu-item index="3-1">快速入门</el-menu-item>
               <el-menu-item index="3-2">常见问题</el-menu-item>
@@ -24,7 +24,7 @@
                 </el-icon></el-button>
             </template>
           </el-input>
-          <el-button type="primary" plain @click="clickToHome" style="margin-left: 0.8rem;">首页</el-button>
+          <el-button type="primary" plain @click="clickToIndex" style="margin-left: 0.8rem;">首页</el-button>
           <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
         </div>
       </el-header>
@@ -121,9 +121,12 @@ export default {
     clickToFind() {
       this.$router.push('/find')
     },
-    clickToHome() {
+    clickToIndex() {
       this.$router.push('/')
     },
+    clickToHome(){
+      this.$router.push('/home')
+    }
   }
 }
 </script>
