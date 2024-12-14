@@ -13,4 +13,6 @@ public interface QuestionService extends IService<Question> {
 
     List<Bank> getBankList();
 
+    Question getById(Integer id);
+
 }

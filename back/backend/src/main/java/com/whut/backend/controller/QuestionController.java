@@ -40,4 +40,10 @@ public class QuestionController {
         List<Bank> bankList = questionService.getBankList();
         return ResponseEntity.ok(bankList);
     }
+    @ResponseBody
+    @GetMapping("/getcurrentquestion")
+    public ResponseEntity<Question> currentQuestion(@RequestParam Integer id) {
+        Question question = questionService.getById(id);
+        return ResponseEntity.ok(question);
+    }
 }
