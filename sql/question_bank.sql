@@ -27,10 +27,9 @@ CREATE TABLE `question_bank` (
   `title` varchar(256) DEFAULT NULL COMMENT '标题',
   `description` text COMMENT '描述',
   `picture` varchar(2048) DEFAULT NULL COMMENT '图片',
-  `userId` bigint NOT NULL COMMENT '创建用户 id',
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='题库';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='题库';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +38,7 @@ CREATE TABLE `question_bank` (
 
 LOCK TABLES `question_bank` WRITE;
 /*!40000 ALTER TABLE `question_bank` DISABLE KEYS */;
-INSERT INTO `question_bank` VALUES (1,'Java编程基础','包含Java编程基础问题的题库，适合初学者。','url_to_java_image.png',1),(2,'Python编程实践','涵盖Python编程实践问题的题库，适合中级开发者。','url_to_python_image.png',2),(3,'C++高级特性','专注于C++高级特性的题库，适合高级开发者。','url_to_cpp_image.png',3),(4,'项目管理技巧','包含项目管理技巧的题库，适合项目经理和团队领导。','url_to_project_image.png',4),(5,'测试技术大全','涵盖测试技术的题库，适合测试工程师。','url_to_test_image.png',5),(6,'数据库技术精粹','专注于数据库技术的题库，适合数据库管理员。','url_to_db_image.png',6),(7,'人工智能前沿','探讨人工智能前沿问题的题库，适合AI研究人员和开发者。','url_to_ai_image.png',7);
+INSERT INTO `question_bank` VALUES (1,'Java编程基础','包含Java编程基础问题的题库，适合初学者。','url_to_java_image.png'),(2,'Python编程实践','涵盖Python编程实践问题的题库，适合中级开发者。','url_to_python_image.png'),(3,'C++高级特性','专注于C++高级特性的题库，适合高级开发者。','url_to_cpp_image.png'),(4,'项目管理技巧','包含项目管理技巧的题库，适合项目经理和团队领导。','url_to_project_image.png'),(5,'测试技术大全','涵盖测试技术的题库，适合测试工程师。','url_to_test_image.png'),(6,'数据库技术精粹','专注于数据库技术的题库，适合数据库管理员。','url_to_db_image.png'),(7,'人工智能前沿','探讨人工智能前沿问题的题库，适合AI研究人员和开发者。','url_to_ai_image.png'),(8,'操作系统原理','包含操作系统原理问题的题库，适合对操作系统感兴趣的学习者。','url_to_os_image.png'),(9,'计算机网络基础','涵盖计算机网络基础问题的题库，适合网络技术爱好者和专业人士。','url_to_network_image.png');
 /*!40000 ALTER TABLE `question_bank` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-10 16:01:16
+-- Dump completed on 2024-12-12 14:35:01
