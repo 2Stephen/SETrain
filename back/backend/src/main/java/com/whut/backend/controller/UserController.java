@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -57,11 +60,20 @@ public class UserController {
         String username = registerData.getUsername();
         String password = registerData.getPassword();
         String email = registerData.getEmail();
+        String captcha = registerData.getCaptcha();
+        String redisCaptcha = (String) redisTemplate.opsForValue().get("email_code_"+email);
+        log.info("redisCaptcha:{}", redisCaptcha);
+        if(redisCaptcha == null) {
+            // 两次传输邮箱不一致或者验证码过期
+            return ResponseEntity.badRequest().body("验证码过期");
+        }else if(!redisCaptcha.equals(captcha)) {
+            return ResponseEntity.badRequest().body("captcha error");
+        }
         boolean register = UserService.register(username, password, email);
         if (register) {
-            return ResponseEntity.ok("Register success");
+            return ResponseEntity.ok("register success");
         } else {
-            return ResponseEntity.badRequest().body("Register failed");
+            return ResponseEntity.badRequest().body("register failed");
         }
     }
 
@@ -70,6 +82,33 @@ public class UserController {
     public ResponseEntity<String> getEmailCode(@RequestParam String email) {
         if(UserService.containsEmail(email)) {
             System.out.println("email exists");
+            // 创建一个邮件
+            SimpleMailMessage message = new SimpleMailMessage();
+            // 设置发件人
+            message.setFrom(nickname+'<'+sender+'>');
+            // 设置收件人
+            message.setTo(email);
+            // 设置邮件主题
+            message.setSubject("欢迎访问"+nickname);
+            //生成六位随机数
+            String code = RandomUtil.randomNumbers(6);
+            //将验证码存入redis，有效期为5分钟
+            redisTemplate.opsForValue().set("email_code_"+email, code, 300000, TimeUnit.MILLISECONDS);
+            String content = "【验证码】您的验证码为：" + code +
+                    " 。 验证码五分钟内有效，逾期作废。\n\n\n" +
+                    "------------------------------\n\n\n" ;
+            message.setText(content);
+            // 发送邮件
+            javaMailSender.send(message);
+            return ResponseEntity.ok("Send email success");
+        } else {
+            return ResponseEntity.badRequest().body("Send email failed");
+        }
+    }
+    @ResponseBody
+    @GetMapping("/getregisteremailcode")
+    public ResponseEntity<String> getRegisterEmailCode(@RequestParam String email) {
+        if(!UserService.containsEmail(email)) {
             // 创建一个邮件
             SimpleMailMessage message = new SimpleMailMessage();
             // 设置发件人
