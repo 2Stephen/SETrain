@@ -8,8 +8,8 @@
           <div class="header-title">数据结构题库系统</div>
           <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
             style="width:30rem;display: flex;align-items: center;" default-active="1">
-            <el-menu-item index="1">首页</el-menu-item>
-            <el-menu-item index="2">题库</el-menu-item>
+            <el-menu-item index="1" @click="clickToIndex">首页</el-menu-item>
+            <el-menu-item index="2" @click="clickToHome">题库</el-menu-item>
             <el-sub-menu index="3"><template #title>帮助</template>
               <el-menu-item index="3-1">快速入门</el-menu-item>
               <el-menu-item index="3-2">常见问题</el-menu-item>
@@ -31,16 +31,19 @@
       </el-header>
 
       <el-container style="background-color: rgb(172,219,252);">
-        <el-aside style="display: flex;justify-content: center;width: 400px;">
-          <div style="margin-top: 150px;">
-            <div style="font-size: 30px;font-weight: bold;">数据结构</div>
+        <el-aside style="display: flex;justify-content: center;width: 25rem;margin-left: 100px;">
+          <div style="margin-top: 150px;text-align: left;">
+            <div style="font-size: 28px;font-weight: bold;">数据结构</div>
             <div style="font-size: 40px;font-weight: bold;">免费在线刷题平台</div>
+            <div style="font-size:18px;margin-bottom: 5px;margin-top: 5px;">在线练习,让考试更简单</div>
+            <div style="margin-top: 20px;">
+              <el-button type="primary" size="large" @click="clickToRegister">免费注册</el-button>
+            </div>
           </div>
         </el-aside>
 
         <el-main style="display: flex;justify-content: flex-end;align-items: center;">
-          <el-carousel :interval="3000" arrow="never" indicator-position="outside"
-            style="width:800px;" height="500px">
+          <el-carousel :interval="3000" arrow="never" indicator-position="outside" style="width:800px;" height="500px">
             <el-carousel-item v-for="(image, index) in imageList" :key="index">
               <img :src="image" style="height: 500px;width:800px;">
             </el-carousel-item>
@@ -48,7 +51,9 @@
         </el-main>
       </el-container>
 
-      <el-footer>Footer</el-footer>
+      <el-footer class="foot">
+        © 2024 数据结构题库系统 - 版权所有
+      </el-footer>
 
     </el-container>
   </div>
@@ -59,6 +64,7 @@ export default {
   name: 'IndexPage',
   data() {
     return {
+      index: 1,
       imageList: [
         'https://www.kaoshiyun.com/index/style/images/2023banner_01.svg',
         'https://www.kaoshiyun.com/index/style/images/2023banner_03.svg',
@@ -73,7 +79,12 @@ export default {
     clickToLogin() {
       this.$router.push('/login')
     },
-    
+    clickToIndex() {
+      this.$router.push('/')
+    },
+    clickToHome() {
+      this.$router.push('/home')
+    },
   }
 }
 </script>
@@ -101,9 +112,18 @@ export default {
 
 .el-sub-menu {
   width: 100px;
+  align-items: center;
 }
-.el-carousel__container{
-  width:1600px;
-  height:1000px;
+
+.el-carousel__container {
+  width: 1600px;
+  height: 1000px;
+}
+
+.foot {
+  background-color: rgb(172,219,252);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -69,6 +69,7 @@ public class UserController {
     @GetMapping("/getemailcode")
     public ResponseEntity<String> getEmailCode(@RequestParam String email) {
         if(UserService.containsEmail(email)) {
+            System.out.println("email exists");
             // 创建一个邮件
             SimpleMailMessage message = new SimpleMailMessage();
             // 设置发件人

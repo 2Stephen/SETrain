@@ -19,4 +19,10 @@
         SELECT id, title
         FROM question_bank
     </select>
+<!--    获取当前题目-->
+    <select id="selectById" resultType="com.whut.backend.entity.Question">
+        SELECT *
+        FROM question
+        WHERE question.id = #{id}
+    </select>
 </mapper>

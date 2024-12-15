@@ -30,4 +30,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public List<Bank> getBankList() {
         return QuestionMapper.getBankList();
     }
+
+    @Override
+    public Question getById(Integer id) {
+        return QuestionMapper.selectById(id);
+    }
 }
