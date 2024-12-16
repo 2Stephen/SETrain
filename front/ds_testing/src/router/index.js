@@ -35,8 +35,7 @@ const routes = [
   },
   {
     path: '/question/:id',
-    // path:'/question',
-    name: 'QuestionDetail',
+    name: 'question',
     component: QuestionDetail,
     props:true, // 将路由参数作为 props 传递给组件
   },
