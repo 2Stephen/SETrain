@@ -47,13 +47,30 @@
 
                         <div>
                             <el-input class="input-area" v-model="registerForm.email" style="width: 18.75rem"
-                                placeholder="请输入邮箱">
+                                placeholder="请输入邮箱" :disabled="stop">
                                 <template #prepend>
                                     <el-icon>
                                         <Message />
                                     </el-icon>
                                 </template>
                             </el-input>
+
+                            <div style="display: flex;justify-content: center;">
+                                <el-input class="input-area" v-model="registerForm.captcha" style="width: 13rem"
+                                    placeholder="请输入验证码">
+                                    <template #prepend>
+                                        <el-icon>
+                                            <Key />
+                                        </el-icon>
+                                    </template>
+                                </el-input>
+                                &nbsp;&nbsp;
+                                <el-button type="primary" plain style="width:82px;" @click="getCAPTCHA"
+                                    :disabled="showTime">
+                                    <div v-if="!showTime">获取验证码</div>
+                                    <div v-if="showTime">{{ getTime }}秒</div>
+                                </el-button>
+                            </div>
 
                             <el-input class="input-area" v-model="registerForm.username" style="width: 18.75rem"
                                 placeholder="请输入用户名">
@@ -116,11 +133,15 @@ export default {
     name: 'RegisterPage',
     data() {
         return {
+            getTime: 60,
+            showTime: false,
+            stop: false,
             registerForm: {
                 username: '',
                 password: '',
                 checkpwd: '',
                 email: '',
+                captcha: '',
             },
             checked: false,
             imageList: [
@@ -141,14 +162,37 @@ export default {
         clickToHome() {
             this.$router.push('/home')
         },
-        register() {
-            if (!this.registerForm.username || !this.registerForm.email || !this.registerForm.password || !this.registerForm.checkpwd) {
-                this.$message.error('请输入完整的邮箱、用户名及密码！');
-                return;
-            }
+        getCAPTCHA() {
             const reg = /^([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4})$/;
             if (!reg.test(this.registerForm.email)) {
                 this.$message.error('邮箱格式不正确！');
+                return;
+            }
+            request.get('/user/getregisteremailcode', {
+                params: {
+                    email: this.registerForm.email
+                }
+            }).then((response) => {
+                // 请求成功处理
+                this.$message.success('验证码发送成功！')
+                this.stop = true;
+                let timer = setInterval(() => {
+                    this.getTime -= 1;
+                    if (this.getTime <= 0) {
+                        clearInterval(timer);
+                        this.showTime = false;
+                        this.getTime = 60;
+                    }
+                }, 1000);
+                this.showTime = true;
+            }).catch((error) => {
+                console.log(error);
+                this.$message.error("邮箱已存在!")
+            })
+        },
+        register() {
+            if (!this.registerForm.username || !this.registerForm.email || !this.registerForm.password || !this.registerForm.checkpwd) {
+                this.$message.error('请输入完整的邮箱、用户名及密码！');
                 return;
             }
             if (this.registerForm.password.length < 6) {
@@ -159,6 +203,12 @@ export default {
                 this.$message.error('两次输入的密码不一致！');
                 return;
             }
+            var curForm = {
+                username: this.registerForm.username,
+                password: this.registerForm.password,
+                email: this.registerForm.email,
+                captcha: this.registerForm.captcha,
+            }
             // 发送注册请求
             request.post('/user/register', this.registerForm)
                 .then((response) => {
@@ -168,7 +218,7 @@ export default {
                 })
                 .catch((error) => {
                     // 请求失败处理
-                    console.error(error);
+                    console.log(error);
                     this.$message.error('用户名或邮箱已存在！');
                 });
         }
