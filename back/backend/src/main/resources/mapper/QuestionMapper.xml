@@ -25,4 +25,27 @@
         FROM question
         WHERE question.id = #{id}
     </select>
+<!--    根据当前题目id获取所有当前题库题目的title-->
+    <select id="getTitles" resultType="com.whut.backend.entity.QuestionIndex">
+        SELECT q.*
+        FROM question q
+        JOIN question_bank_question qbq ON q.id = qbq.questionId
+        WHERE qbq.questionBankId = (
+            SELECT questionBankId
+            FROM question_bank_question
+            WHERE questionId = #{questionid}
+        )
+    </select>
+    <!--    搜索当前题库的题目信息-->
+    <select id="searchContents" resultType="com.whut.backend.entity.Question">
+    SELECT q.*
+    FROM question q
+    JOIN question_bank_question qbq ON q.id = qbq.questionId
+    WHERE qbq.questionBankId = (
+        SELECT questionBankId
+        FROM question_bank_question
+        WHERE questionId = #{questionid}
+        )
+    AND LOWER(q.title) LIKE LOWER(CONCAT('%', #{content}, '%'))
+    </select>
 </mapper>

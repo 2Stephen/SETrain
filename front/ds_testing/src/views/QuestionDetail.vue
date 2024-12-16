@@ -17,9 +17,9 @@
       </div>
 
       <div style="display: flex;justify-content: flex-end;align-items: center;">
-        <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
+        <el-input v-model="searchcontents" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
           <template #append>
-            <el-button type="primary" @click=""><el-icon>
+            <el-button type="primary" @click="getcontents"><el-icon>
                 <Search />
               </el-icon></el-button>
           </template>
@@ -30,12 +30,12 @@
     </el-header>
 
     <el-container>
-      <el-aside width="220px" style="background-color: rgb(235, 245, 255); overflow-y: auto;overflow-x: hidden;">
+      <el-aside width="300px" style="background-color: rgb(235, 245, 255); overflow-y: auto;overflow-x: hidden;">
         <el-scrollbar height="38.75rem">
-          <el-menu :default-active="currentQuestion.id" @select="handleQuestionSelect"
-            background-color="rgb(235, 245, 255)" text-color="#606266" router>
+          <el-menu :default-active="currentQuestion.id.toString()" @select="handleQuestionSelect"
+            background-color="rgb(235, 245, 255)" text-color="#606266">
             <template v-for="question in questionList" :key="question.id">
-              <el-menu-item :index="question.id">
+              <el-menu-item :index="question.id.toString()">
                 {{ question.title }}
               </el-menu-item>
             </template>
@@ -44,28 +44,64 @@
       </el-aside>
 
       <el-main style="padding: 20px; background-color: #f9f9f9;">
-        <div>
-          <!-- 题目标题 -->
-          <h2 style="margin-bottom: 10px;">{{ currentQuestion.title }}</h2>
+        <div v-if="show === 'questiondetail'" style="display: flex; flex-direction: column;gap: 20px;">
 
-          <!-- 标签展示 -->
-          <div style="margin-bottom: 20px;">
-            <el-tag v-for="tag in currentQuestion.tags" :key="tag" type="info" style="margin-right: 10px;">
-              {{ tag }}
-            </el-tag>
-          </div>
+          <el-card shadow="hover" style="border-radius: 8px;">
+            <div style="font-size: 26px; color: #409EFF; text-align:left;margin-bottom: 10px;">
+              {{ currentQuestion.title }}
+            </div>
 
-          <!-- 题目内容 -->
-          <div style="margin-bottom: 30px;">
-            <h3>题目内容</h3>
-            <p>{{ currentQuestion.content }}</p>
-          </div>
+            <div style="text-align: left; margin-bottom: 15px;">
+              <el-tag v-for="(tag, index) in JSON.parse(currentQuestion.tags || '[]')" :key="index" type="info"
+                effect="light" style="margin: 5px;">
+                {{ tag }}
+              </el-tag>
+            </div>
 
-          <!-- 答案部分 -->
-          <div>
-            <h3>答案</h3>
-            <p>{{ currentQuestion.answer }}</p>
-          </div>
+            <div style="color: #606266; font-size: 16px;text-align: left;">
+              <div style="color: #303133; font-size: 18px;margin-bottom: 10px;">题目内容</div>
+              {{ currentQuestion.content }}
+            </div>
+          </el-card>
+
+          <el-card shadow="hover" style="border-radius: 8px;">
+            <div style="font-size: 20px; color: #303133; text-align: left;margin-bottom: 10px;">
+              参考答案
+            </div>
+
+            <div style="color: #606266; font-size: 16px; line-height: 1.8;text-align: left;">
+              <div v-for="(paragraph, index) in currentQuestion.answer.split('\n')" :key="index"
+                style="margin-bottom: 10px;">{{ paragraph }}</div>
+            </div>
+          </el-card>
+
+        </div>
+
+
+
+        <div v-if="show === 'searchquestion'" >
+          <h2>搜索题目列表</h2>
+        <el-table :data="paginatedQuestions" style="width: 100%;">
+          <el-table-column prop="title" label="题目名" />
+          <el-table-column prop="tags" label="标签">
+            <template #default="{ row }">
+              <el-tag v-for="tag in JSON.parse(row.tags)" :key="tag" type="info" class="tag-item" style="margin-right: 10px;">{{ tag
+                }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template #default="{ row }">
+              <el-button link type="primary" @click="viewDetails(row.id)">
+                查看详情
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <el-pagination style="display: flex;justify-content: center;margin-top: 20px;"
+          v-model:current-page="currentPage" v-model:page-size="pageSize" background
+          layout="total, prev, pager, next, jumper" :total="questionSize"
+          @current-change="getcontents" />
         </div>
 
 
@@ -80,44 +116,33 @@
 </template>
 
 <script>
-// import request from '@/api/request';
+import request from '@/api/request';
 
 export default {
   data() {
     return {
-
-      questionList: [
-        { id: "1", title: "什么是 Java 中的不可变类?", tags: ["Java", "基础"], content: "不可变类是...", answer: "不可变类的例子有 String 等。" },
-        { id: "2", title: "Java 中的序列化是什么?", tags: ["Java", "序列化"], content: "序列化是...", answer: "序列化通过实现 Serializable 接口。" },
-        { id: "3", title: "Java 中多态的作用?", tags: ["Java", "面向对象"], content: "多态是...", answer: "多态的主要作用是..." },
-        { id: "4", title: "什么是 Java 中的不可变类?", tags: ["Java", "基础"], content: "不可变类是...", answer: "不可变类的例子有 String 等。" },
-        { id: "5", title: "Java 中的序列化是什么?", tags: ["Java", "序列化"], content: "序列化是...", answer: "序列化通过实现 Serializable 接口。" },
-        { id: "6", title: "Java 中多态的作用?", tags: ["Java", "面向对象"], content: "多态是...", answer: "多态的主要作用是..." },
-        { id: "7", title: "什么是 Java 中的不可变类?", tags: ["Java", "基础"], content: "不可变类是...", answer: "不可变类的例子有 String 等。" },
-        { id: "8", title: "Java 中的序列化是什么?", tags: ["Java", "序列化"], content: "序列化是...", answer: "序列化通过实现 Serializable 接口。" },
-        { id: "9", title: "Java 中多态的作用?", tags: ["Java", "面向对象"], content: "多态是...", answer: "多态的主要作用是..." },
-        { id: "10", title: "什么是 Java 中的不可变类?", tags: ["Java", "基础"], content: "不可变类是...", answer: "不可变类的例子有 String 等。" },
-        { id: "11", title: "Java 中的序列化是什么?", tags: ["Java", "序列化"], content: "序列化是...", answer: "序列化通过实现 Serializable 接口。" },
-        { id: "12", title: "Java 中多态的作用?", tags: ["Java", "面向对象"], content: "多态是...", answer: "多态的主要作用是..." },
-        { id: "13", title: "什么是 Java 中的不可变类?", tags: ["Java", "基础"], content: "不可变类是...", answer: "不可变类的例子有 String 等。" },
-        { id: "14", title: "Java 中的序列化是什么?", tags: ["Java", "序列化"], content: "序列化是...", answer: "序列化通过实现 Serializable 接口。" },
-        { id: "15", title: "Java 中多态的作用?", tags: ["Java", "面向对象"], content: "多态是...", answer: "多态的主要作用是..." },
-        { id: "16", title: "什么是 Java 中的不可变类?", tags: ["Java", "基础"], content: "不可变类是...", answer: "不可变类的例子有 String 等。" },
-        { id: "17", title: "Java 中的序列化是什么?", tags: ["Java", "序列化"], content: "序列化是...", answer: "序列化通过实现 Serializable 接口。" },
-        { id: "18", title: "Java 中多态的作用?", tags: ["Java", "面向对象"], content: "多态是...", answer: "多态的主要作用是..." },
-        { id: "19", title: "什么是 Java 中的不可变类?", tags: ["Java", "基础"], content: "不可变类是...", answer: "不可变类的例子有 String 等。" },
-        { id: "20", title: "Java 中的序列化是什么?", tags: ["Java", "序列化"], content: "序列化是...", answer: "序列化通过实现 Serializable 接口。" },
-        { id: "21", title: "Java 中多态的作用?", tags: ["Java", "面向对象"], content: "多态是...", answer: "多态的主要作用是..." },
-      ],
-      currentQuestion: {},
-
+      currentQuestionid: this.$route.params.id,
+      questionList: [{ id: 1, title: '题目1' }, { id: 2, title: '题目2' }, { id: 3, title: '题目3' }],
+      currentQuestion: {
+        id: 1,
+        title: '',
+        tags: '[]',
+        content: '',
+        answer: '',
+      },
+      searchcontents: '',
+      show:'questiondetail',
+      currentPage: 1, // 当前页码
+      pageSize: 10, // 每页显示条数
+      questionSize: 0,
+      paginatedQuestions: [{id:1,title:'题目1',tags:'["tag1","tag2"]'},{id:2,title:'题目2',tags:'["tag1","tag2"]'}],
 
     };
   },
 
   created() {
-    // 默认加载第一个问题
-    this.currentQuestion = this.questionList[0];
+    this.getcurrentquestion();
+    this.getquestionList();
   },
 
   methods: {
@@ -133,11 +158,61 @@ export default {
     clickToLogin() {
       this.$router.push('/login')
     },
-    handleQuestionSelect(id) {
-      // 根据 ID 查找选中的问题
-      this.currentQuestion = this.questionList.find((question) => question.id === id);
+    getcurrentquestion() {
+      request.get('/question/getcurrentquestion', {
+        params: {
+          id: this.currentQuestionid
+        }
+      })
+        .then(response => {
+          console.error(response)
+          this.currentQuestion = response;
+        })
+        .catch(error => {
+          console.error("题目加载失败!", error);
+        });
     },
-
+    getquestionList() {
+      request.get('/question/getcurrenttitles', {
+        params: {
+          questionid: this.currentQuestionid
+        }
+      })
+        .then(response => {
+          this.questionList = response;
+        })
+        .catch(error => {
+          console.error("题目加载失败!", error);
+        });
+    },
+    handleQuestionSelect(index) {
+      this.show = 'questiondetail';
+      console.log(this.show);
+      this.currentQuestionid = index;
+      this.getcurrentquestion();
+      
+    },
+    getcontents() {
+      request.get('/question/searchcontents', {
+        params: {
+          content: this.searchcontents,
+          page:this.currentPage,
+          pagesize:this.pageSize,
+          questionid: this.currentQuestionid,
+        }
+      })
+        .then(response => {
+          this.questionSize = response.total;
+          this.paginatedQuestions = response.list;
+          console.log(response.list);
+          this.show = 'searchquestion';
+          console.log(this.show);
+        })
+        .catch(error => {
+          console.error("搜索题目失败!", error);
+        });
+    },
+    
 
   },
 };

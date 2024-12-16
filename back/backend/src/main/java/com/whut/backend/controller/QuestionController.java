@@ -4,6 +4,7 @@ package com.whut.backend.controller;
 import com.github.pagehelper.PageInfo;
 import com.whut.backend.entity.Bank;
 import com.whut.backend.entity.Question;
+import com.whut.backend.entity.QuestionIndex;
 import com.whut.backend.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,4 +47,30 @@ public class QuestionController {
         Question question = questionService.getById(id);
         return ResponseEntity.ok(question);
     }
+
+
+    @ResponseBody
+    @GetMapping("/getcurrenttitles")
+    public ResponseEntity<List<QuestionIndex>> currentTitles(@RequestParam Integer questionid) {
+        List<QuestionIndex> question = questionService.getTitles(questionid);
+        return ResponseEntity.ok(question);
+    }
+
+//    @ResponseBody
+//    @GetMapping("/searchtitles")
+//    public ResponseEntity<List<QuestionIndex>> searchTitles(@RequestParam String title) {
+//        List<QuestionIndex> question = questionService.searchTitles(title);
+//        return ResponseEntity.ok(question);
+//    }
+
+    @ResponseBody
+    @GetMapping("/searchcontents")
+    public ResponseEntity<PageInfo<Question>> searchContents(@RequestParam String content,
+                                                         @RequestParam(defaultValue = "1") Integer page,
+                                                         @RequestParam(defaultValue = "8") Integer pagesize,
+                                                         @RequestParam(defaultValue = "1") Integer questionid){
+        PageInfo<Question> question = questionService.searchContents(content,questionid,page,pagesize);
+        return ResponseEntity.ok(question);
+    }
+
 }

@@ -40,8 +40,9 @@
       </el-aside>
 
       <el-main style="padding: 20px; background-color: #f9f9f9;">
-        <h2>{{ selectedCategory }} 题目列表</h2>
-        <el-table :data="paginatedQuestions" style="width: 100%;" :key="selectedCategory">
+        <!-- <h2>{{banklist[bankid-1].title}}题目列表</h2> -->
+        <h2>题目列表</h2>
+        <el-table :data="paginatedQuestions" style="width: 100%;">
           <el-table-column prop="title" label="题目名" />
           <el-table-column prop="tags" label="标签">
             <template #default="{ row }">
@@ -50,8 +51,8 @@
             </template>
           </el-table-column>
           <el-table-column label="操作">
-            <template #default>
-              <el-button link type="primary" @click="viewDetails">
+            <template #default="{ row }">
+              <el-button link type="primary" @click="viewDetails(row.id)">
                 查看详情
               </el-button>
             </template>
@@ -80,16 +81,16 @@ export default {
     return {
       currentPage: 1, // 当前页码
       pageSize: 10, // 每页显示条数
-      banklist: [],
+      //banklist: [],
+      banklist: [{id:1,title:'题库1'},{id:2,title:'题库2'},{id:3,title:'题库3'}],
       bankid:3,
       questionSize:0,
-      paginatedQuestions: [], // 当前分页显示的题目
-
-
+      //paginatedQuestions: [], // 当前分页显示的题目
+      paginatedQuestions: [{id:1,title:'题目1',tags:'["tag1","tag2"]'},{id:2,title:'题目2',tags:'["tag1","tag2"]'}],
     };
   },
 
-  mounted() {
+  created() {
     this.loadBank();
     this.updatePaginatedQuestions();
   },
@@ -116,18 +117,14 @@ export default {
           console.error("题库加载失败!", error);
         });
     },
-
-
     handleMenuSelect(index) {
       this.bankid = index;
       this.currentPage = 1;
       this.updatePaginatedQuestions();
     },
-    // 更新当前分类的题目列表
 
     // 更新分页后的题目列表
     updatePaginatedQuestions() {
-      console.log(111111111111)
       request.get('/question/paginatedquestions',{
         params:{
           index : this.bankid,
@@ -147,24 +144,10 @@ export default {
 
 
 
-    viewDetails(questionId) {
-      console.log("查看题目详情，题目 ID:", questionId);
-      this.$router.push('/question/${questionId}'); // 跳转到题目详情页面
+    viewDetails(questionid) {
+      console.log(questionid);
+      this.$router.push({name:'question',params: {id:questionid}})  // 跳转到题目详情页面
     },
-    // //根据分类加载不同题目
-    // loadQuestionsByCategory(index) {
-    //   request.get('/question/bankindex', {
-    //     params: {
-    //       index: index
-    //     }
-    //   })
-    //     .then(response => {
-    //       this.questions = response.data;
-    //     })
-    //     .catch(error => {
-    //       console.error("加载当前题库中的题目失败:", error);
-    //     });
-    // },
 
 
   },
