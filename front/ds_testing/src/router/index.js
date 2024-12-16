@@ -6,6 +6,7 @@ import HomePage from '@/views/HomePage.vue'
 import FindPwd from '@/views/FindPwd.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import QuestionDetail from '@/views/QuestionDetail.vue'
+import ManagePage from "@/views/ManagePage.vue";
 
 const routes = [
   {
@@ -40,6 +41,12 @@ const routes = [
     component: QuestionDetail,
     props:true, // 将路由参数作为 props 传递给组件
   },
+  {
+    path: '/manage',
+    name: 'manage',
+    component: ManagePage
+  },
+
 ]
 
 const router = createRouter({
