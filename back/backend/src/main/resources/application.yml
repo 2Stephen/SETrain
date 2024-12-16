@@ -12,7 +12,7 @@ spring:
     protocol: smtp
     default-encoding: UTF-8
     username: 2432757689@qq.com
-    password: dwvhnjzitraudiej
+    # password:
     nickname: SETrain
     properties:
       mail.smtp.auth: true #启用SMTP服务器的身份验证，这是为了确保只有合法用户可以发送邮件。
