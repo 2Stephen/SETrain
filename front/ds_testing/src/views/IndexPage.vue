@@ -10,10 +10,12 @@
             style="width:30rem;display: flex;align-items: center;" default-active="1">
             <el-menu-item index="1" @click="clickToIndex">首页</el-menu-item>
             <el-menu-item index="2" @click="clickToHome">题库</el-menu-item>
-            <el-sub-menu index="3"><template #title>帮助</template>
-              <el-menu-item index="3-1">快速入门</el-menu-item>
-              <el-menu-item index="3-2">常见问题</el-menu-item>
+            <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
+            <el-sub-menu index="4"><template #title>帮助</template>
+              <el-menu-item index="4-1">快速入门</el-menu-item>
+              <el-menu-item index="4-2">常见问题</el-menu-item>
             </el-sub-menu>
+
           </el-menu>
         </div>
 
@@ -84,6 +86,9 @@ export default {
     },
     clickToHome() {
       this.$router.push('/home')
+    },
+    clickToManage() {
+      this.$router.push('/manage')
     },
   }
 }

@@ -9,9 +9,10 @@
           style="width:30rem;display: flex;align-items: center;" default-active="2">
           <el-menu-item index="1" @click="clickToIndex" style="width:100px;">首页</el-menu-item>
           <el-menu-item index="2" @click="clickToHome" style="width:100px;">题库</el-menu-item>
-          <el-sub-menu index="3" style="width:100px;"><template #title>帮助</template>
-            <el-menu-item index="3-1">快速入门</el-menu-item>
-            <el-menu-item index="3-2">常见问题</el-menu-item>
+          <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
+          <el-sub-menu index="4" style="width:100px;"><template #title>帮助</template>
+            <el-menu-item index="4-1">快速入门</el-menu-item>
+            <el-menu-item index="4-2">常见问题</el-menu-item>
           </el-sub-menu>
         </el-menu>
       </div>
@@ -85,8 +86,10 @@ export default {
       banklist: [{id:1,title:'题库1'},{id:2,title:'题库2'},{id:3,title:'题库3'}],
       bankid:3,
       questionSize:0,
+
       //paginatedQuestions: [], // 当前分页显示的题目
       paginatedQuestions: [{id:1,title:'题目1',tags:'["tag1","tag2"]'},{id:2,title:'题目2',tags:'["tag1","tag2"]'}],
+
     };
   },
 
@@ -107,6 +110,9 @@ export default {
     },
     clickToLogin() {
       this.$router.push('/login')
+    },
+    clickToManage(){
+      this.$router.push('/manage')
     },
     loadBank() {
       request.get('/question/getbanklist',)
