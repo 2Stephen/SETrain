@@ -2,7 +2,6 @@ package com.whut.backend.mapper;
 
 import com.whut.backend.entity.QuestionBank;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.whut.backend.entity.QuestionBankQuestion;
 
 import java.util.List;
 
@@ -22,7 +21,8 @@ public interface QuestionBankMapper extends BaseMapper<QuestionBank> {
 
     void updateQuestionBank(QuestionBank questionBank);
 
-    List<QuestionBankQuestion> getAllQuestionBankQuestion();
+
+    List<QuestionBank> getAllQuestionBank();
 }
 
 

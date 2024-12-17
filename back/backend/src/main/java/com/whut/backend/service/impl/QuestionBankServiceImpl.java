@@ -2,7 +2,6 @@ package com.whut.backend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.whut.backend.entity.QuestionBank;
-import com.whut.backend.entity.QuestionBankQuestion;
 import com.whut.backend.mapper.QuestionBankMapper;
 import com.whut.backend.service.QuestionBankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,8 @@ public class QuestionBankServiceImpl extends ServiceImpl<QuestionBankMapper, Que
     }
 
     @Override
-    public List<QuestionBankQuestion> getAllQuestionBankQuestion() {
-        return questionBankMapper.getAllQuestionBankQuestion();
+    public List<QuestionBank> getAllQuestionBank() {
+        return questionBankMapper.getAllQuestionBank();
     }
 
 

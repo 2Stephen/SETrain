@@ -40,7 +40,8 @@
     <select id="getQuestionBankById" resultType="com.whut.backend.entity.QuestionBank">
         select * from question_bank where id = #{id}
     </select>
-    <select id="getAllQuestionBankQuestion" resultType="com.whut.backend.entity.QuestionBankQuestion">
-        select * from question_bank_question
+    <select id="getAllQuestionBank" resultType="com.whut.backend.entity.QuestionBank">
+        select * from question_bank
     </select>
+
 </mapper>

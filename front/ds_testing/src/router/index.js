@@ -6,7 +6,9 @@ import HomePage from '@/views/HomePage.vue'
 import FindPwd from '@/views/FindPwd.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import QuestionDetail from '@/views/QuestionDetail.vue'
-import ManagePage from "@/views/ManagePage.vue";
+import ManageLayout from "@/views/ManageLayout.vue";
+import QuestionView from "@/views/QuestionView.vue";
+import QuestionBankView from "@/views/QuestionBankView.vue";
 
 const routes = [
   {
@@ -43,7 +45,19 @@ const routes = [
   {
     path: '/manage',
     name: 'manage',
-    component: ManagePage
+    component: ManageLayout,
+    children:[
+      {
+        path: '/question',
+        name: 'question',
+        component : QuestionView
+      },
+      {
+        path: '/questionBank',
+        name: 'questionBank',
+        component: QuestionBankView
+      }
+    ]
   },
 
 ]

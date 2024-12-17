@@ -2,7 +2,6 @@ package com.whut.backend.service;
 
 import com.whut.backend.entity.QuestionBank;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.whut.backend.entity.QuestionBankQuestion;
 
 import java.util.List;
 
@@ -20,5 +19,6 @@ public interface QuestionBankService extends IService<QuestionBank> {
 
     void saveQuestionBank(QuestionBank questionBank);
 
-    List<QuestionBankQuestion> getAllQuestionBankQuestion();
+
+    List<QuestionBank> getAllQuestionBank();
 }

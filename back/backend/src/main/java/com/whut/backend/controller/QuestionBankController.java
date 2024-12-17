@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/questionBank")
 @Slf4j
@@ -33,10 +35,9 @@ public class QuestionBankController {
         return Result.success();
     }
 
-    @GetMapping("/getAllQuestionBankQuestion")
-    public Result getAllQuestionBankQuestion() {
-        log.info("Controller getAllQuestionBankQuestion");
-        return Result.success(questionBankService.getAllQuestionBankQuestion());
+    @GetMapping("/getAllQuestionBank")
+    public Result getAllBookType(){
+        List<QuestionBank> list=questionBankService.getAllQuestionBank();
+        return Result.success(list);
     }
-
 }
