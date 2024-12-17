@@ -35,17 +35,17 @@
     <el-container>
       <el-aside width="220px" style="background-color: rgb(235, 245, 255);">
         <el-menu
-            default-active="2"
+            default-active="1"
             class="el-menu-vertical-demo"
             router
         >
 
-          <el-menu-item index="/question">
+          <el-menu-item index="/manageQuestion">
             <el-icon><icon-menu /></el-icon>
             <span>题目管理</span>
           </el-menu-item>
 
-          <el-menu-item index="/questionBank">
+          <el-menu-item index="/manageQuestionBank">
             <el-icon><setting /></el-icon>
             <span>题库管理</span>
           </el-menu-item>

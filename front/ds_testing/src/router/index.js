@@ -52,13 +52,13 @@ const routes = [
     component: ManageLayout,
     children:[
       {
-        path: '/question',
-        name: 'question',
+        path: '/manageQuestion',
+        name: 'manageQuestion',
         component : QuestionView
       },
       {
-        path: '/questionBank',
-        name: 'questionBank',
+        path: '/manageQuestionBank',
+        name: 'manageQuestionBank',
         component: QuestionBankView
       }
     ]
