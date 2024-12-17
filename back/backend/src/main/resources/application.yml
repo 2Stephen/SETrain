@@ -14,7 +14,7 @@ spring:
     default-encoding: UTF-8
 
     username: 3327766246@qq.com
-    password: ptputumdxjcidbja
+    #password:
 
     nickname: SETrain
     properties:
