@@ -17,13 +17,13 @@
         </div>
 
         <div style="display: flex;justify-content: flex-end;align-items: center;">
-          <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
+          <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
             <template #append>
               <el-button type="primary" @click=""><el-icon>
                   <Search />
                 </el-icon></el-button>
             </template>
-          </el-input>
+          </el-input> -->
           <el-button type="primary" plain @click="clickToIndex" style="margin-left: 0.8rem;">首页</el-button>
           <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
         </div>
@@ -108,6 +108,7 @@ export default {
         .then((response) => {
           // 请求成功处理
           this.$message.success('登录成功！');
+          this.$store.dispatch('login',this.loginForm.username);
           this.$router.push('/home');
         })
         .catch((error) => {

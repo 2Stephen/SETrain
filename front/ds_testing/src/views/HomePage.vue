@@ -17,15 +17,21 @@
       </div>
 
       <div style="display: flex;justify-content: flex-end;align-items: center;">
-        <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
+        <el-input v-model="search" style="width: 12.5rem;margin-right: 20px;" placeholder="搜索题目" class="input-with-select">
           <template #append>
             <el-button type="primary" @click=""><el-icon>
                 <Search />
               </el-icon></el-button>
           </template>
         </el-input>
-        <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
-        <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
+        <div v-if="isAuthenticated">
+          欢迎，{{ user }}
+          <el-button type="primary" plain @click="loginout" style="margin-left: 0.8rem;">退出登录</el-button>
+        </div>
+        <div v-if="!isAuthenticated">
+          <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
+          <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
+        </div>
       </div>
     </el-header>
 
@@ -75,10 +81,17 @@
 
 <script>
 import request from '@/api/request';
+import store from '@/store';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   data() {
     return {
+      store : useStore(),
+      isAuthenticated: computed(() => store.getters.isAuthenticated),
+      user: computed(() => store.getters.getUser),
+
       currentPage: 1, // 当前页码
       pageSize: 10, // 每页显示条数
       //banklist: [],
@@ -135,20 +148,20 @@ export default {
         .then(response => {
           this.questionSize = response.total;
           this.paginatedQuestions = response.list;
-          console.log(response)
         })
         .catch(error => {
           console.error("题目加载失败!", error);
         });
     },
-
-
-
     viewDetails(questionid) {
-      console.log(questionid);
+      if(!this.isAuthenticated){
+        this.$message.error('点击登录查看完整题目');
+      }
       this.$router.push({name:'question',params: {id:questionid}})  // 跳转到题目详情页面
     },
-
+    loginout(){
+      this.$store.dispatch('logout');
+    },
 
   },
 };

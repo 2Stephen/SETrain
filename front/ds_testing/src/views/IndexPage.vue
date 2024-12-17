@@ -18,15 +18,21 @@
         </div>
 
         <div style="display: flex;justify-content: flex-end;align-items: center;">
-          <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
+          <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
             <template #append>
               <el-button type="primary" @click=""><el-icon>
                   <Search />
                 </el-icon></el-button>
             </template>
-          </el-input>
-          <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
-          <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
+          </el-input> -->
+          <div v-if="isAuthenticated">
+            欢迎，{{ user }}
+            <el-button type="primary" plain @click="loginout" style="margin-left: 0.8rem;">退出登录</el-button>
+          </div>
+          <div v-if="!isAuthenticated">
+            <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
+            <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
+          </div>
         </div>
       </el-header>
 
@@ -60,10 +66,17 @@
 </template>
 
 <script>
+import store from '@/store';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
   name: 'IndexPage',
   data() {
     return {
+      store : useStore(),
+      isAuthenticated: computed(() => store.getters.isAuthenticated),
+      user: computed(() => store.getters.getUser),
+
       index: 1,
       imageList: [
         'https://www.kaoshiyun.com/index/style/images/2023banner_01.svg',
@@ -85,6 +98,10 @@ export default {
     clickToHome() {
       this.$router.push('/home')
     },
+    loginout(){
+      this.$store.dispatch('logout');
+    },
+
   }
 }
 </script>
@@ -121,7 +138,7 @@ export default {
 }
 
 .foot {
-  background-color: rgb(172,219,252);
+  background-color: rgb(172, 219, 252);
   display: flex;
   align-items: center;
   justify-content: center;
