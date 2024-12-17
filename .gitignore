@@ -1,2 +1,4 @@
 # os system file
 .DS_Store
+# IntelliJ IDEA configuration
+.idea/
