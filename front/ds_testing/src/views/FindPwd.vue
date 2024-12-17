@@ -18,20 +18,21 @@
           </el-menu>
         </div>
 
-        <div style="display: flex;justify-content: flex-end;align-items: center;">
-          <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
-            <template #append>
-              <el-button type="primary" @click="">
-                <el-icon>
-                  <Search/>
-                </el-icon>
-              </el-button>
-            </template>
-          </el-input>
-          <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
-          <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
-        </div>
-      </el-header>
+
+
+                <div style="display: flex;justify-content: flex-end;align-items: center;">
+                    <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
+                        <template #append>
+                            <el-button type="primary" @click=""><el-icon>
+                                    <Search />
+                                </el-icon></el-button>
+                        </template>
+                    </el-input> -->
+                    <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
+                    <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
+                </div>
+            </el-header>
+
 
       <el-container style="background-color:#409EFF;">
         <el-aside width="55rem">

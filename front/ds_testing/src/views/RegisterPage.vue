@@ -17,13 +17,13 @@
                 </div>
 
                 <div style="display: flex;justify-content: flex-end;align-items: center;">
-                    <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
+                    <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
                         <template #append>
                             <el-button type="primary" @click=""><el-icon>
                                     <Search />
                                 </el-icon></el-button>
                         </template>
-                    </el-input>
+                    </el-input> -->
                     <el-button type="primary" plain @click="clickToIndex" style="margin-left: 0.8rem;">首页</el-button>
                     <el-button type="primary" @click="clickToLogin" style="margin-right: 0.625rem;">登录</el-button>
                 </div>
