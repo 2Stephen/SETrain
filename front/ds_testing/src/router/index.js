@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import store from '../store'
 
 import IndexPage from '@/views/IndexPage.vue'
 import UserLogin from '@/views/UserLogin.vue'
@@ -38,12 +39,23 @@ const routes = [
     name: 'question',
     component: QuestionDetail,
     props:true, // 将路由参数作为 props 传递给组件
+    meta: {
+      requireAuth: true
+    }
   },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.meta.requireAuth && !store.getters.isAuthenticated){
+    // next('/login'); //未登录，重定向到登录页
+  }else{
+    next(); //放行
+  }
 })
 
 export default router
