@@ -7,6 +7,9 @@ import HomePage from '@/views/HomePage.vue'
 import FindPwd from '@/views/FindPwd.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import QuestionDetail from '@/views/QuestionDetail.vue'
+import ManageLayout from "@/views/ManageLayout.vue";
+import QuestionView from "@/views/QuestionView.vue";
+import QuestionBankView from "@/views/QuestionBankView.vue";
 
 const routes = [
   {
@@ -43,6 +46,24 @@ const routes = [
       requireAuth: true
     }
   },
+  {
+    path: '/manage',
+    name: 'manage',
+    component: ManageLayout,
+    children:[
+      {
+        path: '/manageQuestion',
+        name: 'manageQuestion',
+        component : QuestionView
+      },
+      {
+        path: '/manageQuestionBank',
+        name: 'manageQuestionBank',
+        component: QuestionBankView
+      }
+    ]
+  },
+
 ]
 
 const router = createRouter({

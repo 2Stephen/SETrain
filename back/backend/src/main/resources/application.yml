@@ -1,4 +1,5 @@
 server:
+  address: 192.168.168.214
   port: 8082
 
 spring:
@@ -6,13 +7,15 @@ spring:
     url: jdbc:mysql://localhost:3306/SETrain
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: wlx050103
+    password: 2432757689
   mail:
     host: smtp.qq.com
     protocol: smtp
     default-encoding: UTF-8
-    username: 2432757689@qq.com
-    password: dwvhnjzitraudiej
+
+    username: 3327766246@qq.com
+    #password:
+
     nickname: SETrain
     properties:
       mail.smtp.auth: true #启用SMTP服务器的身份验证，这是为了确保只有合法用户可以发送邮件。
@@ -21,6 +24,8 @@ spring:
   redis:
     host: localhost
     port: 6379
+    #password:
+    #database: 5
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

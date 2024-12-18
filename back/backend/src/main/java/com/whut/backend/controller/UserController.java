@@ -8,7 +8,8 @@ import com.whut.backend.POJO.UserData;
 import com.whut.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
+
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -33,7 +34,7 @@ public class UserController {
     private JavaMailSender javaMailSender;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Value("${spring.mail.username}")
     private String sender;
@@ -61,9 +62,10 @@ public class UserController {
         String password = registerData.getPassword();
         String email = registerData.getEmail();
         String captcha = registerData.getCaptcha();
-        String redisCaptcha = (String) redisTemplate.opsForValue().get("email_code_"+email);
+        String redisCaptcha = (String) stringRedisTemplate.opsForValue().get("email_code_"+email);
         log.info("redisCaptcha:{}", redisCaptcha);
         if(redisCaptcha == null) {
+            log.info("验证码过期");
             // 两次传输邮箱不一致或者验证码过期
             return ResponseEntity.badRequest().body("验证码过期");
         }else if(!redisCaptcha.equals(captcha)) {
@@ -73,6 +75,7 @@ public class UserController {
         if (register) {
             return ResponseEntity.ok("register success");
         } else {
+            log.info("register failed");
             return ResponseEntity.badRequest().body("register failed");
         }
     }
@@ -93,7 +96,7 @@ public class UserController {
             //生成六位随机数
             String code = RandomUtil.randomNumbers(6);
             //将验证码存入redis，有效期为5分钟
-            redisTemplate.opsForValue().set("email_code_"+email, code, 300000, TimeUnit.MILLISECONDS);
+            stringRedisTemplate.opsForValue().set("email_code_"+email, code, 300000, TimeUnit.MILLISECONDS);
             String content = "【验证码】您的验证码为：" + code +
                     " 。 验证码五分钟内有效，逾期作废。\n\n\n" +
                     "------------------------------\n\n\n" ;
@@ -120,7 +123,7 @@ public class UserController {
             //生成六位随机数
             String code = RandomUtil.randomNumbers(6);
             //将验证码存入redis，有效期为5分钟
-            redisTemplate.opsForValue().set("email_code_"+email, code, 300000, TimeUnit.MILLISECONDS);
+            stringRedisTemplate.opsForValue().set("email_code_"+email, code, 300000, TimeUnit.MILLISECONDS);
             String content = "【验证码】您的验证码为：" + code +
                     " 。 验证码五分钟内有效，逾期作废。\n\n\n" +
                     "------------------------------\n\n\n" ;
@@ -139,7 +142,7 @@ public class UserController {
         String email = changePwdData.getEmail();
         String code = changePwdData.getCaptcha();
         String password = changePwdData.getPassword();
-        String redisCode = (String) redisTemplate.opsForValue().get("email_code_"+email);
+        String redisCode = stringRedisTemplate.opsForValue().get("email_code_"+email);
         if(redisCode != null && redisCode.equals(code)) {
             boolean changePwd = UserService.changePwd(email, password);
             if (changePwd) {
