@@ -3,6 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.whut.backend.mapper.QuestionMapper">
+    <insert id="insertQuestion">
+        INSERT INTO question(title, content, tags, answer) VALUES (#{title},#{content},#{tags},#{answer})
+    </insert>
+    <update id="updateQuestion">
+        UPDATE question
+        SET title = #{title},
+            content = #{content},
+            tags = #{tags},
+            answer = #{answer}
+        WHERE id = #{id}
+    </update>
     <!--通过index从question_bank_question找到questionid，在question表找到对应题目-->
     <select id="getQuestionList" resultType="com.whut.backend.entity.Question">
         SELECT
@@ -54,5 +65,12 @@
         OR LOWER(question_bank_title) LIKE LOWER(CONCAT('%', #{content}, '%'))
         OR LOWER(content) LIKE LOWER(CONCAT('%', #{content}, '%'))
         OR LOWER(answer) LIKE LOWER(CONCAT('%', #{content}, '%'))
+    <select id="findBySearch" resultType="com.whut.backend.entity.Question">
+        select * from question
+        <where>
+            <if test="params.title != null and params.title != ''">
+                and LOWER(title) like LOWER(CONCAT('%',#{params.title},'%'))
+            </if>
+        </where>
     </select>
 </mapper>

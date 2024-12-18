@@ -1,6 +1,7 @@
 package com.whut.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.whut.backend.common.Params;
 import com.whut.backend.entity.Bank;
 import com.whut.backend.entity.Question;
 import com.whut.backend.entity.QuestionBankView;
@@ -22,4 +23,11 @@ public interface QuestionMapper extends BaseMapper<Question> {
     List<Question> searchContents(@Param("content")String content, @Param("questionid")Integer questionid);
 
     List<QuestionBankView> searchAllContents(@Param("content")String content);
+
+    // 下面是管理员模式下的增删改查
+    List<Question> findBySearch(@Param("params") Params params);
+
+    void insertQuestion(Question question);
+
+    void updateQuestion(Question question);
 }
