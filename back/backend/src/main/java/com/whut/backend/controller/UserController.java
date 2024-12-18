@@ -65,6 +65,7 @@ public class UserController {
         String redisCaptcha = (String) stringRedisTemplate.opsForValue().get("email_code_"+email);
         log.info("redisCaptcha:{}", redisCaptcha);
         if(redisCaptcha == null) {
+            log.info("验证码过期");
             // 两次传输邮箱不一致或者验证码过期
             return ResponseEntity.badRequest().body("验证码过期");
         }else if(!redisCaptcha.equals(captcha)) {
@@ -74,6 +75,7 @@ public class UserController {
         if (register) {
             return ResponseEntity.ok("register success");
         } else {
+            log.info("register failed");
             return ResponseEntity.badRequest().body("register failed");
         }
     }

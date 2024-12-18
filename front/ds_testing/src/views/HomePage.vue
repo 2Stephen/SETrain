@@ -18,9 +18,10 @@
       </div>
 
       <div style="display: flex;justify-content: flex-end;align-items: center;">
-        <el-input v-model="search" style="width: 12.5rem;margin-right: 20px;" placeholder="搜索题目" class="input-with-select">
+        <el-input v-model="searchcontents" style="width: 12.5rem;margin-right: 20px;" placeholder="搜索题目"
+          @keyup.enter="getallcontents">
           <template #append>
-            <el-button type="primary" @click=""><el-icon>
+            <el-button type="primary" @click="getallcontents"><el-icon>
                 <Search />
               </el-icon></el-button>
           </template>
@@ -47,29 +48,57 @@
       </el-aside>
 
       <el-main style="padding: 20px; background-color: #f9f9f9;">
-        <!-- <h2>{{banklist[bankid-1].title}}题目列表</h2> -->
-        <h2>题目列表</h2>
-        <el-table :data="paginatedQuestions" style="width: 100%;">
-          <el-table-column prop="title" label="题目名" />
-          <el-table-column prop="tags" label="标签">
-            <template #default="{ row }">
-              <el-tag v-for="tag in JSON.parse(row.tags)" :key="tag" type="info" class="tag-item" style="margin-right: 10px;">{{ tag
-                }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template #default="{ row }">
-              <el-button link type="primary" @click="viewDetails(row.id)">
-                查看详情
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
 
-        <el-pagination style="display: flex;justify-content: center;margin-top: 20px;"
-          v-model:current-page="currentPage" v-model:page-size="pageSize" background
-          layout="total, prev, pager, next, jumper" :total="questionSize"
-          @current-change="updatePaginatedQuestions" />
+        <div v-if="show === 'questionlist'">
+          <h2>题目列表</h2>
+          <el-table :data="paginatedQuestions" style="width: 100%;">
+            <el-table-column prop="title" label="题目名" />
+            <el-table-column prop="tags" label="标签">
+              <template #default="{ row }">
+                <el-tag v-for="tag in JSON.parse(row.tags)" :key="tag" type="info" class="tag-item"
+                  style="margin-right: 10px;">{{ tag
+                  }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template #default="{ row }">
+                <el-button link type="primary" @click="viewDetails(row.id)">
+                  查看详情
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination style="display: flex;justify-content: center;margin-top: 20px;"
+            v-model:current-page="currentPage" v-model:page-size="pageSize" background
+            layout="total, prev, pager, next, jumper" :total="questionSize"
+            @current-change="updatePaginatedQuestions" />
+        </div>
+
+        <div v-if="show === 'searchquestion'">
+          <h2>搜索题目列表</h2>
+          <el-table :data="searchQuestions" style="width: 100%;">
+            <el-table-column prop="question_title" label="题目名" />
+            <el-table-column prop="tags" label="标签">
+              <template #default="{ row }">
+                <el-tag v-for="tag in JSON.parse(row.tags)" :key="tag" type="info" class="tag-item"
+                  style="margin-right: 10px;">{{ tag
+                  }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="question_bank_title" label="题目名" />
+            <el-table-column label="操作">
+              <template #default="{ row }">
+                <el-button link type="primary" @click="viewDetails(row.id)">
+                  查看详情
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination style="display: flex;justify-content: center;margin-top: 20px;"
+            v-model:current-page="currentPage" v-model:page-size="pageSize" background
+            layout="total, prev, pager, next, jumper" :total="questionSize"
+            @current-change="getallcontents" />
+        </div>
 
       </el-main>
     </el-container>
@@ -89,20 +118,21 @@ import { useStore } from 'vuex';
 export default {
   data() {
     return {
-      store : useStore(),
+      store: useStore(),
       isAuthenticated: computed(() => store.getters.isAuthenticated),
       user: computed(() => store.getters.getUser),
 
+      searchcontents: '',
+      show: 'questionlist',
       currentPage: 1, // 当前页码
       pageSize: 10, // 每页显示条数
       //banklist: [],
-      banklist: [{id:1,title:'题库1'},{id:2,title:'题库2'},{id:3,title:'题库3'}],
-      bankid:3,
-      questionSize:0,
-
+      banklist: [{ id: 1, title: '题库1' }, { id: 2, title: '题库2' }, { id: 3, title: '题库3' }],
+      bankid: 3,
+      questionSize: 0,
       //paginatedQuestions: [], // 当前分页显示的题目
-      paginatedQuestions: [{id:1,title:'题目1',tags:'["tag1","tag2"]'},{id:2,title:'题目2',tags:'["tag1","tag2"]'}],
-
+      paginatedQuestions: [{ id: 1, title: '题目1', tags: '["tag1","tag2"]' }, { id: 2, title: '题目2', tags: '["tag1","tag2"]' }],
+      searchQuestions: [{ id: 1, question_title: '题目1', tags: '["tag1","tag2"]', question_bank_title: '题库1' }, { id: 2, question_title: '题目2', tags: '["tag1","tag2"]', question_bank_title: '题库2' }],
     };
   },
 
@@ -141,12 +171,11 @@ export default {
       this.currentPage = 1;
       this.updatePaginatedQuestions();
     },
-
     // 更新分页后的题目列表
     updatePaginatedQuestions() {
-      request.get('/question/paginatedquestions',{
-        params:{
-          index : this.bankid,
+      request.get('/question/paginatedquestions', {
+        params: {
+          index: this.bankid,
           page: this.currentPage,
           pagesize: this.pageSize
         }
@@ -154,18 +183,37 @@ export default {
         .then(response => {
           this.questionSize = response.total;
           this.paginatedQuestions = response.list;
+          this.show = 'questionlist';
         })
         .catch(error => {
           console.error("题目加载失败!", error);
         });
     },
+    getallcontents() {
+      request.get('/question/searchallcontents', {
+        params: {
+          content: this.searchcontents,
+          page: this.currentPage,
+          pagesize: this.pageSize,
+        }
+      })
+        .then(response => {
+          this.questionSize = response.total;
+          this.searchQuestions = response.list;
+          console.log(this.searchQuestions);
+          this.show = 'searchquestion';
+        })
+        .catch(error => {
+          console.error("搜索题目失败!", error);
+        });
+    },
     viewDetails(questionid) {
-      if(!this.isAuthenticated){
+      if (!this.isAuthenticated) {
         this.$message.error('点击登录查看完整题目');
       }
-      this.$router.push({name:'question',params: {id:questionid}})  // 跳转到题目详情页面
+      this.$router.push({ name: 'question', params: { id: questionid } })  // 跳转到题目详情页面
     },
-    loginout(){
+    loginout() {
       this.$store.dispatch('logout');
     },
 

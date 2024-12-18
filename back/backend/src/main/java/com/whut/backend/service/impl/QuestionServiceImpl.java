@@ -8,6 +8,7 @@ import com.whut.backend.entity.Bank;
 import com.whut.backend.entity.Question;
 import com.whut.backend.entity.QuestionBankQuestion;
 import com.whut.backend.entity.QuestionIndex;
+import com.whut.backend.entity.QuestionBankView;
 import com.whut.backend.entity.dto.QuestionDTO;
 import com.whut.backend.handler.CustomException;
 import com.whut.backend.mapper.QuestionMapper;
@@ -63,6 +64,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
+    public PageInfo<QuestionBankView> searchAllContents(String content, Integer page, Integer pagesize) {
+        PageHelper.startPage(page, pagesize);
+        List<QuestionBankView> questions = questionMapper.searchAllContents(content);
+        return new PageInfo<>(questions);
+    }
     public PageInfo<Question> findBySearch(Params params) {
         log.info("Service findBySearch: {}", params);
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
