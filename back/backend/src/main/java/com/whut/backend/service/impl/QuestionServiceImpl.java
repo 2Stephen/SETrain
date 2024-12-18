@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.whut.backend.entity.Bank;
 import com.whut.backend.entity.Question;
 import com.whut.backend.entity.QuestionIndex;
+import com.whut.backend.entity.QuestionBankView;
 import com.whut.backend.mapper.QuestionMapper;
 import com.whut.backend.service.QuestionService;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,13 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public PageInfo<Question> searchContents(String content,Integer questionid, Integer page, Integer pageSize) {
         PageHelper.startPage(page, pageSize);
         List<Question>questions =  QuestionMapper.searchContents(content,questionid);
+        return new PageInfo<>(questions);
+    }
+
+    @Override
+    public PageInfo<QuestionBankView> searchAllContents(String content, Integer page, Integer pagesize) {
+        PageHelper.startPage(page, pagesize);
+        List<QuestionBankView> questions = QuestionMapper.searchAllContents(content);
         return new PageInfo<>(questions);
     }
 }
