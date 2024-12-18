@@ -78,7 +78,6 @@
         </div>
 
 
-
         <div v-if="show === 'searchquestion'">
           <h2>搜索题目列表</h2>
           <el-table :data="paginatedQuestions" style="width: 100%;">
@@ -103,7 +102,6 @@
             v-model:current-page="currentPage" v-model:page-size="pageSize" background
             layout="total, prev, pager, next, jumper" :total="questionSize" @current-change="getcontents" />
         </div>
-
 
       </el-main>
     </el-container>
