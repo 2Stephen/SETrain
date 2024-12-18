@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c237acaf-f426-48e6-bf92-25fda7092670" name="更改" comment="题库管理界面初步&#10;//TODO增删改查&#10;(补充提交一部分">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mybatisx/templates.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mybatisx/templates.xml" afterDir="false" />
+    <list default="true" id="c237acaf-f426-48e6-bf92-25fda7092670" name="更改" comment="application.yml Ignore">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +137,31 @@
       <option name="project" value="LOCAL" />
       <updated>1734446983833</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="题库管理界面初步&#10;//TODO增删改查">
+      <option name="closed" value="true" />
+      <created>1734449633400</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1734449633400</updated>
+    </task>
+    <task id="LOCAL-00004" summary="题库管理界面初步&#10;//TODO增删改查">
+      <option name="closed" value="true" />
+      <created>1734449850384</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1734449850384</updated>
+    </task>
+    <task id="LOCAL-00005" summary="application.yml Ignore">
+      <option name="closed" value="true" />
+      <created>1734449919415</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1734449919415</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,8 +191,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="题库管理界面初步&#10;//TODO增删改查" />
     <MESSAGE value="题库管理界面初步&#10;//TODO增删改查&#10;(补充提交一部分" />
-    <option name="LAST_COMMIT_MESSAGE" value="题库管理界面初步&#10;//TODO增删改查&#10;(补充提交一部分" />
+    <MESSAGE value="题库管理界面初步&#10;//TODO增删改查" />
+    <MESSAGE value="application.yml Ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="application.yml Ignore" />
   </component>
 </project>
