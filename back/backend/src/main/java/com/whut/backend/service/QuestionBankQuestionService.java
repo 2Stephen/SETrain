@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface QuestionBankQuestionService extends IService<QuestionBankQuestion> {
 
-    Long getQuestionBankIdByQuestionId(Long questionId);
+    Integer getQuestionBankIdByQuestionId(Integer questionId);
+
+    void saveQuestionBankQuestion(QuestionBankQuestion questionBankQuestion);
 
 }

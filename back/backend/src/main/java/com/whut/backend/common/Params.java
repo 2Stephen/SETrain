@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class Params {
 
     String title;
+    Integer questionBankId;
     Integer pageNum;
     Integer pageSize;
 

@@ -25,4 +25,8 @@ public interface QuestionService extends IService<Question> {
     PageInfo<Question> findBySearch(Params params);
 
     void saveQuestion(QuestionDTO questionDTO);
+
+    void deleteQuestionById(Integer id);
+
+    void deleteQuestionBatch(List<Question> questionList);
 }

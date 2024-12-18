@@ -11,9 +11,9 @@ import java.io.Serializable;
 @TableName(value ="question_bank_question")
 @Data
 public class QuestionBankQuestion implements Serializable {
-    private Long id;
-    private Long questionBankId;
-    private Long questionId;
+    private Integer id;
+    private Integer questionBankId;
+    private Integer questionId;
 
     private static final long serialVersionUID = 1L;
 }

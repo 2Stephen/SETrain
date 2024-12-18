@@ -13,7 +13,17 @@
     <sql id="Base_Column_List">
         id,questionBankId,questionId
     </sql>
-    <select id="getQuestionBankIdByQuestionId" resultType="java.lang.Long">
+
+    <insert id="insertQuestionBankQuestion">
+        insert into question_bank_question(questionBankId,questionId)
+        values(#{questionBankId},#{questionId})
+    </insert>
+    <update id="updateQuestionBankQuestion">
+        update question_bank_question
+        set questionBankId = #{questionBankId}
+        where questionId = #{questionId}
+    </update>
+    <select id="getQuestionBankIdByQuestionId" resultType="java.lang.Integer">
         select questionBankId from question_bank_question where questionId = #{questionId}
     </select>
 </mapper>

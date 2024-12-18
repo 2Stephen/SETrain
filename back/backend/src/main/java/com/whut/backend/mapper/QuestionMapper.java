@@ -23,7 +23,9 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
     List<Question> findBySearch(@Param("params") Params params);
 
-    void insertQuestion(Question question);
+    Integer insertQuestion(Question question);
 
     void updateQuestion(Question question);
+
+    void deleteQuestionById(Integer id);
 }

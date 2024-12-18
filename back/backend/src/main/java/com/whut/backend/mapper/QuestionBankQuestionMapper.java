@@ -11,7 +11,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface QuestionBankQuestionMapper extends BaseMapper<QuestionBankQuestion> {
 
-    Long getQuestionBankIdByQuestionId(Long questionId);
+    Integer getQuestionBankIdByQuestionId(Integer questionId);
+
+    void updateQuestionBankQuestion(QuestionBankQuestion questionBankQuestion);
+
+
+
+    void insertQuestionBankQuestion(QuestionBankQuestion questionBankQuestion);
 }
 
 

@@ -3,67 +3,74 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.whut.backend.mapper.QuestionMapper">
-    <insert id="insertQuestion">
-        INSERT INTO question(title, content, tags, answer) VALUES (#{title},#{content},#{tags},#{answer})
+    <insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO question(title, content, tags, answer)
+        VALUES (#{title}, #{content}, #{tags}, #{answer})
     </insert>
     <update id="updateQuestion">
         UPDATE question
-        SET title = #{title},
+        SET title   = #{title},
             content = #{content},
-            tags = #{tags},
-            answer = #{answer}
+            tags    = #{tags},
+            answer  = #{answer}
         WHERE id = #{id}
     </update>
+    <delete id="deleteQuestionById">
+        DELETE
+        FROM question
+        WHERE id = #{id}
+    </delete>
     <!--通过index从question_bank_question找到questionid，在question表找到对应题目-->
     <select id="getQuestionList" resultType="com.whut.backend.entity.Question">
-        SELECT
-            question.id,
-            question.title,
-            question.tags
+        SELECT question.id,
+               question.title,
+               question.tags
         FROM question
-        JOIN question_bank_question
-        ON question.id = question_bank_question.questionId
+                 JOIN question_bank_question
+                      ON question.id = question_bank_question.questionId
         WHERE question_bank_question.questionBankId = #{index}
     </select>
-<!--    获取题库列表-->
+    <!--    获取题库列表-->
     <select id="getBankList" resultType="com.whut.backend.entity.Bank">
         SELECT id, title
         FROM question_bank
     </select>
-<!--    获取当前题目-->
+    <!--    获取当前题目-->
     <select id="selectById" resultType="com.whut.backend.entity.Question">
         SELECT *
         FROM question
         WHERE question.id = #{id}
     </select>
-<!--    根据当前题目id获取所有当前题库题目的title-->
+    <!--    根据当前题目id获取所有当前题库题目的title-->
     <select id="getTitles" resultType="com.whut.backend.entity.QuestionIndex">
         SELECT q.*
         FROM question q
-        JOIN question_bank_question qbq ON q.id = qbq.questionId
-        WHERE qbq.questionBankId = (
-            SELECT questionBankId
-            FROM question_bank_question
-            WHERE questionId = #{questionid}
-        )
+                 JOIN question_bank_question qbq ON q.id = qbq.questionId
+        WHERE qbq.questionBankId = (SELECT questionBankId
+                                    FROM question_bank_question
+                                    WHERE questionId = #{questionid})
     </select>
     <!--    搜索当前题库的题目信息-->
     <select id="searchContents" resultType="com.whut.backend.entity.Question">
-    SELECT q.*
-    FROM question q
-    JOIN question_bank_question qbq ON q.id = qbq.questionId
-    WHERE qbq.questionBankId = (
-        SELECT questionBankId
-        FROM question_bank_question
-        WHERE questionId = #{questionid}
-        )
-    AND LOWER(q.title) LIKE LOWER(CONCAT('%', #{content}, '%'))
+        SELECT q.*
+        FROM question q
+                 JOIN question_bank_question qbq ON q.id = qbq.questionId
+        WHERE qbq.questionBankId = (SELECT questionBankId
+                                    FROM question_bank_question
+                                    WHERE questionId = #{questionid})
+          AND LOWER(q.title) LIKE LOWER(CONCAT('%', #{content}, '%'))
     </select>
+
+
     <select id="findBySearch" resultType="com.whut.backend.entity.Question">
         select * from question
+        left join question_bank_question qbq on question.id = qbq.questionId
         <where>
             <if test="params.title != null and params.title != ''">
                 and LOWER(title) like LOWER(CONCAT('%',#{params.title},'%'))
+            </if>
+            <if test="params.questionBankId != null and params.questionBankId != ''">
+                and qbq.questionBankId = #{params.questionBankId}
             </if>
         </where>
     </select>

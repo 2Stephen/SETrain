@@ -94,4 +94,22 @@ public class QuestionController {
     }
 
 
+    @DeleteMapping("/deleteQuestionById/{id}")
+    public Result deleteQuestion(@PathVariable("id") Integer id) {
+        log.info("Controller deleteQuestionById: {}", id);
+        questionService.deleteQuestionById(id);
+        return Result.success();
+    }
+
+
+    @PutMapping("/deleteQuestionBatch")
+    public Result deleteQuestionBatch(@RequestBody List<Question> questionList) {
+        log.info("Controller deleteQuestionBatch: {}", questionList);
+        questionService.deleteQuestionBatch(questionList);
+        return Result.success();
+    }
+
+
+
+
 }

@@ -6,7 +6,7 @@ spring:
     url: jdbc:mysql://localhost:3306/SETrain
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    #password:
+#    password:
 
   mail:
     host: smtp.qq.com
@@ -14,7 +14,7 @@ spring:
     default-encoding: UTF-8
 
     username: 3327766246@qq.com
-    #password:
+#    password:
 
     nickname: SETrain
     properties:
@@ -24,8 +24,8 @@ spring:
   redis:
     host: localhost
     port: 6379
-    #password:
-    #database: 5
+#    password:
+    database: 5
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
