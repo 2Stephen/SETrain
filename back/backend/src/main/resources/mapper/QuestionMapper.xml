@@ -31,10 +31,8 @@
         FROM question_bank
     </select>
 <!--    获取当前题目-->
-    <select id="selectById" resultType="com.whut.backend.entity.Question">
-        SELECT *
-        FROM question
-        WHERE question.id = #{id}
+    <select id="selectById" resultType="com.whut.backend.entity.Question" statementType="CALLABLE">
+        {CALL get_question_by_id(#{id, mode=IN})}
     </select>
 <!--    根据当前题目id获取所有当前题库题目的title-->
     <select id="getTitles" resultType="com.whut.backend.entity.QuestionIndex">
@@ -49,7 +47,7 @@
     </select>
     <!--    搜索当前题库的题目信息-->
     <select id="searchContents" resultType="com.whut.backend.entity.Question">
-    SELECT q.*
+    SELECT q.id, q.title, q.tags
     FROM question q
     JOIN question_bank_question qbq ON q.id = qbq.questionId
     WHERE qbq.questionBankId = (
@@ -59,6 +57,14 @@
         )
     AND LOWER(q.title) LIKE LOWER(CONCAT('%', #{content}, '%'))
     </select>
+    <select id="searchAllContents" resultType="com.whut.backend.entity.QuestionBankView">
+        SELECT id, question_title, tags, question_bank_title
+        FROM question_bank_view
+        WHERE LOWER(question_title) LIKE LOWER(CONCAT('%', #{content}, '%'))
+        OR LOWER(tags) LIKE LOWER(CONCAT('%', #{content}, '%'))
+        OR LOWER(question_bank_title) LIKE LOWER(CONCAT('%', #{content}, '%'))
+        OR LOWER(content) LIKE LOWER(CONCAT('%', #{content}, '%'))
+        OR LOWER(answer) LIKE LOWER(CONCAT('%', #{content}, '%'))
     <select id="findBySearch" resultType="com.whut.backend.entity.Question">
         select * from question
         <where>

@@ -6,6 +6,7 @@ import com.whut.backend.common.Params;
 import com.whut.backend.common.Result;
 import com.whut.backend.entity.Bank;
 import com.whut.backend.entity.Question;
+import com.whut.backend.entity.QuestionBankView;
 import com.whut.backend.entity.QuestionIndex;
 import com.whut.backend.entity.dto.QuestionDTO;
 import com.whut.backend.service.QuestionService;
@@ -59,12 +60,14 @@ public class QuestionController {
         return ResponseEntity.ok(question);
     }
 
-//    @ResponseBody
-//    @GetMapping("/searchtitles")
-//    public ResponseEntity<List<QuestionIndex>> searchTitles(@RequestParam String title) {
-//        List<QuestionIndex> question = questionService.searchTitles(title);
-//        return ResponseEntity.ok(question);
-//    }
+    @ResponseBody
+    @GetMapping("/searchallcontents")
+    public ResponseEntity<PageInfo<QuestionBankView>> searchAllContents(@RequestParam String content,
+                                                                        @RequestParam(defaultValue = "1") Integer page,
+                                                                        @RequestParam(defaultValue = "8") Integer pagesize) {
+        PageInfo<QuestionBankView> question = questionService.searchAllContents(content, page, pagesize);
+        return ResponseEntity.ok(question);
+    }
 
     @ResponseBody
     @GetMapping("/searchcontents")
