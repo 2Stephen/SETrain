@@ -132,4 +132,33 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             //TODO 留给触发器实现
         }
     }
+
+    @Override
+    public void generateQuestionCSV() {
+        questionMapper.generateQuestionCSV();
+    }
+
+    @Override
+    @Transactional
+    public void refreshQuestionCSV(String fileRealName) {
+        // 删除临时表（如果存在）
+        questionMapper.dropTempTable();
+
+        // 创建临时表
+        questionMapper.createTempTable();
+
+        // 从CSV文件加载数据到临时表
+        questionMapper.loadDataFromFile(fileRealName);
+
+        // 将数据从临时表导入到question表
+        questionMapper.insertIntoQuestion();
+
+        // 将数据从临时表导入到question_bank_question表
+        questionMapper.insertIntoQuestionBankQuestion();
+
+        // 删除临时表
+        questionMapper.dropTempTableAfterUse();
+    }
+
+
 }

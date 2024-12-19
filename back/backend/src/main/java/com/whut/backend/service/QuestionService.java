@@ -31,4 +31,9 @@ public interface QuestionService extends IService<Question> {
     void deleteQuestionById(Integer id);
 
     void deleteQuestionBatch(List<Question> questionList);
+
+    void generateQuestionCSV();
+
+    void refreshQuestionCSV(String fileRealName);
+
 }

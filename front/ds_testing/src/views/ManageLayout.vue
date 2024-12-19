@@ -35,6 +35,7 @@
     <el-container>
       <el-aside width="220px" style="background-color: rgb(235, 245, 255);">
         <el-menu
+            ref="menu"
             default-active="1"
             class="el-menu-vertical-demo"
             router
@@ -78,6 +79,12 @@ export default {
       search: ''
     }
   },
+
+  mounted() {
+    console.log("mounted");
+    this.$router.push('/manageQuestion');
+  },
+
   methods: {
     clickToIndex() {
       this.$router.push('/')

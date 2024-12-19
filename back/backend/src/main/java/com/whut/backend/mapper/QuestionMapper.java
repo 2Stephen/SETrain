@@ -32,4 +32,23 @@ public interface QuestionMapper extends BaseMapper<Question> {
     void updateQuestion(Question question);
 
     void deleteQuestionById(Integer id);
+
+
+    void generateQuestionCSV();
+
+
+    /**
+     * 存储过程拆解，实在封装不了
+     */
+    void dropTempTable();
+
+    void createTempTable();
+
+    void loadDataFromFile(@Param("fileRealName") String fileRealName);
+
+    void insertIntoQuestion();
+
+    void insertIntoQuestionBankQuestion();
+
+    void dropTempTableAfterUse();
 }
