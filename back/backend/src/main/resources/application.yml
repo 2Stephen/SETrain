@@ -1,5 +1,4 @@
 server:
-  address: 192.168.168.214
   port: 8082
 
 spring:
