@@ -10,6 +10,7 @@
             <result property="questionId" column="questionId" jdbcType="BIGINT"/>
     </resultMap>
 
+<<<<<<< Updated upstream
     <sql id="Base_Column_List">
         id,questionBankId,questionId
     </sql>
@@ -24,6 +25,12 @@
         where questionId = #{questionId}
     </update>
     <select id="getQuestionBankIdByQuestionId" resultType="java.lang.Integer">
+=======
+<!--    <sql id="Base_Column_List">-->
+<!--        id,questionBankId,questionId-->
+<!--    </sql>-->
+    <select id="getQuestionBankIdByQuestionId" resultType="java.lang.Long">
+>>>>>>> Stashed changes
         select questionBankId from question_bank_question where questionId = #{questionId}
     </select>
 </mapper>

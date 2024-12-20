@@ -14,8 +14,13 @@ spring:
     protocol: smtp
     default-encoding: UTF-8
 
+<<<<<<< Updated upstream
     username: 3327766246@qq.com
 #    password:
+=======
+    username: 2432757689@qq.com
+    password: dwvhnjzitraudiej
+>>>>>>> Stashed changes
 
     nickname: SETrain
     properties:

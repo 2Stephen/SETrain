@@ -11,10 +11,10 @@
             <result property="picture" column="picture" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,title,description,
-        picture
-    </sql>
+<!--    <sql id="Base_Column_List">-->
+<!--        id,title,description,-->
+<!--        picture-->
+<!--    </sql>-->
     <insert id="insertQuestionBank">
         insert into question_bank(title,description,picture)
         values(#{title},#{description},#{picture})

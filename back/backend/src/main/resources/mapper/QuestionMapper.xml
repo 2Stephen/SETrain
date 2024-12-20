@@ -70,9 +70,14 @@
         OR LOWER(question_bank_title) LIKE LOWER(CONCAT('%', #{content}, '%'))
         OR LOWER(content) LIKE LOWER(CONCAT('%', #{content}, '%'))
         OR LOWER(answer) LIKE LOWER(CONCAT('%', #{content}, '%'))
+<<<<<<< Updated upstream
     </select>
 
 
+=======
+
+    </select>
+>>>>>>> Stashed changes
     <select id="findBySearch" resultType="com.whut.backend.entity.Question">
         select * from question
         left join question_bank_question qbq on question.id = qbq.questionId
