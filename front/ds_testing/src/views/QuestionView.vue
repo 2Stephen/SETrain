@@ -10,7 +10,28 @@
     <el-button type="success" @click="findBySearch">查询</el-button>
     <el-button type="warning">修改</el-button>
     <el-button type="danger" @click="delBatch">批量删除</el-button>
+    <el-button type="info" style="margin-left: 80px;" @click="exportQuestionWithBankId">导出题目</el-button>
+    <el-upload
+        class="upload-demo"
+
+        action="http://localhost:8082/files/upload"
+        :on-success="handleAvatarSuccess"
+        :headers="myHeaders"
+
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :before-remove="beforeRemove"
+        multiple
+        :limit="3"
+        :on-exceed="handleExceed"
+        :file-list="fileList">
+
+      <el-button type="primary" style="margin-left: 12px;margin-top: 10px;">导入题目</el-button>
+
+    </el-upload>
+
   </div>
+
 
   <el-table
       ref="multipleTableRef"
@@ -106,7 +127,7 @@
           <el-input v-model="form.content" autocomplete="off"></el-input>
         </el-form-item>
 
-<!--        以下两个form-item 设置 clearable 后运行 总是出bug 去掉将就一下吧 -->
+        <!--        以下两个form-item 设置 clearable 后运行 总是出bug 去掉将就一下吧 -->
 
         <el-form-item label="标签">
           <el-input v-model="form.tags" autocomplete="off"
@@ -114,7 +135,7 @@
         </el-form-item>
 
         <el-form-item label="题库分类">
-          <el-select v-model="form.questionBankId"  placeholder="请选择">
+          <el-select v-model="form.questionBankId" placeholder="请选择">
             <el-option
                 v-for="item in typeObjs"
                 :key="item.id"
@@ -286,7 +307,7 @@ export default {
       this.multipleSelection = val;
     },
 
-    delBatch(){
+    delBatch() {
       if (this.multipleSelection.length === 0) {
         this.$message({
           message: '请选择要删除的数据',
@@ -315,6 +336,64 @@ export default {
           }
         })
       });
+
+    },
+
+    triggerUpload() {
+      console.log('触发上传')
+      this.$refs.upload.submit(); // 触发文件选择框
+    },
+    handleAvatarSuccess(resp) {
+      if (resp.code === '0') {
+        this.$message({
+          type: 'success',
+          message: '导入成功!'
+        });
+        this.findBySearch();
+      } else {
+        this.$message({
+          type: 'error',
+          message: resp.msg
+        });
+      }
+    },
+
+    exportQuestionWithBankId() {
+
+      //这里只能用原生的，封装的接收文件会得到undefined!!!!!!
+      //TODO 改IP地址
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost:8082/files/questionCSV', true);
+      xhr.responseType = 'blob'; // 设置响应类型为 blob
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          // 请求成功，处理文件下载
+          const blob = xhr.response;
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'question.csv'); // 设置下载文件的名称
+          document.body.appendChild(link);
+          link.click(); // 模拟点击链接以触发下载
+          document.body.removeChild(link); // 清理
+
+          this.$message({
+            type: 'success',
+            message: '导出成功!'
+          });
+
+        } else {
+          console.error('请求失败，状态码：', xhr.status);
+        }
+      };
+
+      xhr.onerror = function () {
+        console.error('请求发生错误');
+      };
+
+      xhr.send();
 
     }
 
