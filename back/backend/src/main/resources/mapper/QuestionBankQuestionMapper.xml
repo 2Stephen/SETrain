@@ -10,9 +10,9 @@
             <result property="questionId" column="questionId" jdbcType="BIGINT"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,questionBankId,questionId
-    </sql>
+<!--    <sql id="Base_Column_List">-->
+<!--        id,questionBankId,questionId-->
+<!--    </sql>-->
 
     <insert id="insertQuestionBankQuestion">
         insert into question_bank_question(questionBankId,questionId)
