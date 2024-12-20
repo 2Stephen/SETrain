@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c237acaf-f426-48e6-bf92-25fda7092670" name="更改" comment="application.yml Ignore">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/backend/src/main/resources/mapper/QuestionBankMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back/backend/src/main/resources/mapper/QuestionBankMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/backend/src/main/resources/mapper/QuestionBankQuestionMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back/backend/src/main/resources/mapper/QuestionBankQuestionMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/backend/src/main/resources/mapper/QuestionMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back/backend/src/main/resources/mapper/QuestionMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
