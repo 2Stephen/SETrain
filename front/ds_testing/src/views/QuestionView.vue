@@ -1,14 +1,15 @@
 <template>
 
   <div style="display: flex;justify-content: flex-start;align-items: center;">
-    <el-input v-model="params.title" style="width: 240px; margin-right: 20px" placeholder="请输入标题" />
-    <el-select v-model="params.type" placeholder="请选择题目类型" style="width: 200px; margin-right: 20px">
-      <el-option v-for="item in typeObjs" :key="item.id" :label="item.title" :value="item.id" />
+    <el-input v-model="params.title" style="width: 240px; margin-right: 20px" placeholder="请输入标题"/>
+    <el-select v-model="params.questionBankId" clearable placeholder="请选择题目类型"
+               style="width: 200px; margin-right: 20px">
+      <el-option v-for="item in typeObjs" :key="item.id" :label="item.title" :value="item.id"/>
     </el-select>
     <el-button type="primary" @click="addQuestion">新增</el-button>
-    <el-button type="success">查询</el-button>
+    <el-button type="success" @click="findBySearch">查询</el-button>
     <el-button type="warning">修改</el-button>
-    <el-button type="danger">批量删除</el-button>
+    <el-button type="danger" @click="delBatch">批量删除</el-button>
   </div>
 
   <el-table
@@ -17,12 +18,31 @@
       style="width: 100%"
       @selection-change="handleSelectionChange"
   >
-    <el-table-column type="selection" :selectable="selectable" width="55" />
+    <el-table-column type="selection" :selectable="selectable" width="55"/>
 
-    <el-table-column property="id" label="ID" width="120" />
-    <el-table-column property="title" label="标题" />
-    <el-table-column property="content" label="简述" />
-    <el-table-column property="tags" label="标签" />
+    <el-table-column property="id" label="ID" width="60"/>
+    <el-table-column property="title" label="标题" width="200"/>
+    <el-table-column property="content" label="简述"/>
+
+    <!--    <el-table-column label="简述" width="150">-->
+    <!--      <template v-slot="scope">-->
+    <!--        <div class="text-ellipsis" :title="scope.row.content">-->
+    <!--          {{ scope.row.content }}-->
+    <!--        </div>-->
+    <!--      </template>-->
+    <!--    </el-table-column>-->
+
+
+    <!--    <el-table-column property="tags" label="标签" />-->
+    <el-table-column prop="tags" label="标签">
+      <template #default="{ row }">
+        <el-tag v-for="tag in JSON.parse(row.tags)" :key="tag" type="info" class="tag-item" style="margin-right: 10px;">
+          {{
+            tag
+          }}
+        </el-tag>
+      </template>
+    </el-table-column>
 
     <el-table-column label="推荐答案" width="150">
       <template v-slot="scope">
@@ -31,10 +51,11 @@
         </div>
       </template>
     </el-table-column>
+
     <el-table-column label="操作" width="300">
       <template v-slot="scope">
 
-        <el-button type="primary" @click="editQuestion(scope.row)" >
+        <el-button type="primary" @click="editQuestion(scope.row)">
           编辑
         </el-button>
 
@@ -85,12 +106,15 @@
           <el-input v-model="form.content" autocomplete="off"></el-input>
         </el-form-item>
 
+<!--        以下两个form-item 设置 clearable 后运行 总是出bug 去掉将就一下吧 -->
+
         <el-form-item label="标签">
-          <el-input v-model="form.tags" autocomplete="off"></el-input>
+          <el-input v-model="form.tags" autocomplete="off"
+                    placeholder="以空格为标签分割，例如'数据库 存储管理 应用系统'"></el-input>
         </el-form-item>
 
         <el-form-item label="题库分类">
-          <el-select v-model="form.questionBankId" clearable placeholder="请选择">
+          <el-select v-model="form.questionBankId"  placeholder="请选择">
             <el-option
                 v-for="item in typeObjs"
                 :key="item.id"
@@ -117,9 +141,7 @@
     </el-dialog>
 
 
-
   </div>
-
 
 
 </template>
@@ -135,16 +157,18 @@ export default {
   data() {
     return {
       params: {
-        title : '',
+        title: '',
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        questionBankId: ''
       },
       tableData: [],
       typeObjs: [],
       total: 0,
       dialogFormVisible: false,
       form: {},
-      user: localStorage.getItem('user')?JSON.parse(localStorage.getItem('user')):{}
+      user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
+      multipleSelection: []
     }
   },
   mounted() {
@@ -152,7 +176,7 @@ export default {
     this.findBySearch();
   },
 
-  methods:{
+  methods: {
 
     findBySearch() {
       request.get('/question/findBySearch', {
@@ -172,7 +196,7 @@ export default {
       })
     },
 
-    findAllType(){
+    findAllType() {
       request.get('/questionBank/getAllQuestionBank').then(resp => {
         if (resp.code === '0') {
           this.typeObjs = resp.data;
@@ -198,7 +222,7 @@ export default {
       this.form = obj;
       // 拿到questionBankId
 
-      request.get('/questionBankQuestion/getQuestionBankIdByQuestionId/'+obj.id).then(resp => {
+      request.get('/questionBankQuestion/getQuestionBankIdByQuestionId/' + obj.id).then(resp => {
         if (resp.code === '0') {
           this.form.questionBankId = resp.data;
         } else {
@@ -216,8 +240,11 @@ export default {
       this.dialogFormVisible = true;
     },
 
-
     submitAddQuestion() {
+      // 处理tags  'A B C' -> '["A","B","C"]'
+      this.form.tags = JSON.stringify(this.form.tags.split(' '));
+      console.log(this.form.tags);
+
       request.post('/question/saveQuestion', this.form).then(resp => {
         if (resp.code === '0') {
           this.$message({
@@ -235,6 +262,62 @@ export default {
         }
       })
     },
+
+    deleteQuestion(id) {
+      request.delete('/question/deleteQuestionById/' + id).then(resp => {
+        if (resp.code === '0') {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+        } else {
+          this.$message({
+            message: resp.msg,
+            type: 'error'
+          });
+        }
+
+        this.findBySearch();
+      })
+    },
+
+    handleSelectionChange(val) {
+      console.log(val);
+      this.multipleSelection = val;
+    },
+
+    delBatch(){
+      if (this.multipleSelection.length === 0) {
+        this.$message({
+          message: '请选择要删除的数据',
+          type: 'error'
+        });
+        return;
+      }
+
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        request.put('/question/deleteQuestionBatch', this.multipleSelection).then(resp => {
+          if (resp.code === '0') {
+            this.$message({
+              type: 'success',
+              message: '批量删除成功!'
+            });
+            this.findBySearch();
+          } else {
+            this.$message({
+              type: 'error',
+              message: resp.msg
+            });
+          }
+        })
+      });
+
+    }
+
 
   }
 }

@@ -19,9 +19,24 @@ public class QuestionBankQuestionServiceImpl extends ServiceImpl<QuestionBankQue
     @Autowired
     private QuestionBankQuestionMapper questionBankQuestionMapper;
     @Override
-    public Long getQuestionBankIdByQuestionId(Long questionId) {
+    public Integer getQuestionBankIdByQuestionId(Integer questionId) {
         return questionBankQuestionMapper.getQuestionBankIdByQuestionId(questionId);
     }
+
+    @Override
+    public void saveQuestionBankQuestion(QuestionBankQuestion questionBankQuestion) {
+        // 如果存在则更新
+        Integer questionId=questionBankQuestion.getQuestionId();
+        if(questionBankQuestionMapper.getQuestionBankIdByQuestionId(questionId)!=null){
+            questionBankQuestionMapper.updateQuestionBankQuestion(questionBankQuestion);
+        }else{
+            // 不存在就新增
+            questionBankQuestionMapper.insertQuestionBankQuestion(questionBankQuestion);
+        }
+
+    }
+
+
 }
 
 

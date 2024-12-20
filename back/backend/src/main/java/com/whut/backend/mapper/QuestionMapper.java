@@ -27,7 +27,9 @@ public interface QuestionMapper extends BaseMapper<Question> {
     // 下面是管理员模式下的增删改查
     List<Question> findBySearch(@Param("params") Params params);
 
-    void insertQuestion(Question question);
+    Integer insertQuestion(Question question);
 
     void updateQuestion(Question question);
+
+    void deleteQuestionById(Integer id);
 }

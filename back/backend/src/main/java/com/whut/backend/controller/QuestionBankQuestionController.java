@@ -15,9 +15,9 @@ public class QuestionBankQuestionController {
     @Autowired
     private QuestionBankQuestionService questionBankQuestionService;
     @RequestMapping("/getQuestionBankIdByQuestionId/{id}")
-    public Result getQuestionBankQuestionById(@PathVariable("id") Long questionId) {
+    public Result getQuestionBankQuestionById(@PathVariable("id") Integer questionId) {
         log.info("Controller getQuestionBankQuestionById questionId: {}", questionId);
-        Long questionBankId = questionBankQuestionService.getQuestionBankIdByQuestionId(questionId);
+        Integer questionBankId = questionBankQuestionService.getQuestionBankIdByQuestionId(questionId);
         log.info("Controller getQuestionBankQuestionById questionBankId: {}", questionBankId);
         return Result.success(questionBankId);
     }

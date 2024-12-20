@@ -13,7 +13,7 @@ import lombok.Data;
 @TableName(value ="question_bank")
 @Data
 public class QuestionBank implements Serializable {
-    private Long id;
+    private Integer id;
 
     private String title;
 
