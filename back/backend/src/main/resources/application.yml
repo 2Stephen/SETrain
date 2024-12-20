@@ -7,20 +7,15 @@ spring:
     url: jdbc:mysql://localhost:3306/SETrain
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-#    password:
+    password: 2432757689
 
   mail:
     host: smtp.qq.com
     protocol: smtp
     default-encoding: UTF-8
-
-<<<<<<< Updated upstream
-    username: 3327766246@qq.com
-#    password:
-=======
     username: 2432757689@qq.com
     password: dwvhnjzitraudiej
->>>>>>> Stashed changes
+
 
     nickname: SETrain
     properties:
