@@ -1,20 +1,19 @@
 server:
-
   port: 8082
-#  address: 192.168.133.214
+  address: 0.0.0.0
 
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/SETrain
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 2432757689
+    password:
   mail:
     host: smtp.qq.com
-    protocol: smtp
+    protocol: smtps
     default-encoding: UTF-8
-    username: 2432757689@qq.com
-    password: dwvhnjzitraudiej
+    username: @qq.com
+    password:
     nickname: SETrain
     properties:
       mail.smtp.auth: true #启用SMTP服务器的身份验证，这是为了确保只有合法用户可以发送邮件。
