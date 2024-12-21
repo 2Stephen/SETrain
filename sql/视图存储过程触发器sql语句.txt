@@ -1,0 +1,32 @@
+-- 新建查询运行下面代码
+-- -- 视图
+-- CREATE VIEW question_bank_view AS
+-- SELECT q.id as id, q.tags as tags, q.title as question_title,q.content as content,q.answer as answer, qb.title as question_bank_title
+-- FROM question q
+-- JOIN question_bank_question qbq ON q.id = qbq.questionid
+-- JOIN question_bank qb ON qbq.questionbankid = qb.id;
+-- 
+-- 
+-- -- 存储过程
+-- DELIMITER $$
+-- 
+-- CREATE PROCEDURE get_question_by_id(IN question_id INT)
+-- BEGIN
+--     SELECT * FROM question WHERE id = question_id;
+-- END$$
+-- 
+-- DELIMITER ;
+
+-- -- 触发器
+-- DELIMITER $$
+-- 
+-- CREATE TRIGGER after_question_delete
+-- AFTER DELETE ON question
+-- FOR EACH ROW
+-- BEGIN
+--     -- 删除question_bank_question表中与被删除题目对应的记录
+--     DELETE FROM question_bank_question
+--     WHERE questionId = OLD.id;
+-- END$$
+-- 
+-- DELIMITER ;

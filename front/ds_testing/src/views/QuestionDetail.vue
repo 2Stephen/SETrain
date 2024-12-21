@@ -4,15 +4,15 @@
     <el-header
       style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
       <div style="display: flex;justify-content: flex-start;align-items: center;">
-        <div class="header-title">数据结构题库系统</div>
+        <div class="header-title">面试题库系统</div>
         <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
           style="width:30rem;display: flex;align-items: center;" default-active="2">
           <el-menu-item index="1" @click="clickToIndex" style="width:100px;">首页</el-menu-item>
           <el-menu-item index="2" @click="clickToHome" style="width:100px;">题库</el-menu-item>
-          <el-menu-item index="4" @click="clickToManage" style="width:100px;">管理</el-menu-item>
-          <el-sub-menu index="3" style="width:100px;"><template #title>帮助</template>
-            <el-menu-item index="3-1">快速入门</el-menu-item>
-            <el-menu-item index="3-2">常见问题</el-menu-item>
+          <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
+          <el-sub-menu index="4" style="width:100px;"><template #title>帮助</template>
+            <el-menu-item index="4-1">快速入门</el-menu-item>
+            <el-menu-item index="4-2">常见问题</el-menu-item>
           </el-sub-menu>
         </el-menu>
       </div>
@@ -33,13 +33,13 @@
     </el-header>
 
     <el-container>
-      <el-aside width="300px" style="background-color: rgb(235, 245, 255); overflow-y: auto;overflow-x: hidden;">
+      <el-aside width="220px" style="background-color: rgb(235, 245, 255); overflow-y: auto;overflow-x: hidden;">
         <el-scrollbar height="38.75rem">
           <el-menu :default-active="currentQuestion.id.toString()" @select="handleQuestionSelect"
             background-color="rgb(235, 245, 255)" text-color="#606266">
             <template v-for="question in questionList" :key="question.id">
               <el-menu-item :index="question.id.toString()">
-                {{ question.title }}
+                <span class="menu-item-title">{{ question.title }}</span>
               </el-menu-item>
             </template>
           </el-menu>
@@ -108,7 +108,7 @@
     </el-container>
 
     <el-footer class="foot">
-      © 2024 数据结构题库系统 - 版权所有
+      © 2024 面试题库系统 - 版权所有
     </el-footer>
 
   </el-container>
@@ -165,6 +165,9 @@ export default {
       this.$router.push('/login')
     },
     clickToManage() {
+      if (!this.isAuthenticated) {
+        this.$message.error('点击登录管理题目');
+      }
       this.$router.push('/manage')
     },
     getcurrentquestion() {
@@ -282,5 +285,13 @@ export default {
 
 .el-aside::-webkit-scrollbar-track {
   background-color: #f5f5f5;
+}
+
+.menu-item-title {
+  display: block;
+  white-space: nowrap; /* 防止换行 */
+  overflow: hidden; /* 隐藏超出部分 */
+  text-overflow: ellipsis; /* 使用省略号显示超出部分 */
+  max-width: 100%; /* 限制最大宽度为 100%，防止超出容器 */
 }
 </style>

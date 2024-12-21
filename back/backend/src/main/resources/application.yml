@@ -1,14 +1,16 @@
 server:
 
   port: 8082
-  address: 192.168.133.214
+#  address: 192.168.133.214
 
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/SETrain
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 2432757689
+#    password: 2432757689
+    password: wlx050103
+
   mail:
     host: smtp.qq.com
     protocol: smtp

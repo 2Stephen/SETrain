@@ -55,7 +55,7 @@ public class UserController {
         String password = userData.getPassword();
         boolean login = UserService.login(username, password);
         if (login) {
-            return ResponseEntity.ok("Login success");
+            return ResponseEntity.ok("admin");
         } else {
             return ResponseEntity.badRequest().body("Login failed");
         }

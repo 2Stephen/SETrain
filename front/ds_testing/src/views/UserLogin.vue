@@ -4,26 +4,19 @@
       <el-header
         style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex;justify-content: flex-start;align-items: center;">
-          <div class="header-title">数据结构题库系统</div>
+          <div class="header-title">面试题库系统</div>
           <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
             style="width:30rem;display: flex;align-items: center;" default-active="1">
             <el-menu-item index="1" @click="clickToIndex">首页</el-menu-item>
             <el-menu-item index="2" @click="clickToHome">题库</el-menu-item>
-            <el-sub-menu index="3"><template #title>帮助</template>
-              <el-menu-item index="3-1">快速入门</el-menu-item>
-              <el-menu-item index="3-2">常见问题</el-menu-item>
+            <el-sub-menu index="4" style="width:100px;"><template #title>帮助</template>
+              <el-menu-item index="4-1">快速入门</el-menu-item>
+              <el-menu-item index="4-2">常见问题</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </div>
 
         <div style="display: flex;justify-content: flex-end;align-items: center;">
-          <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
-            <template #append>
-              <el-button type="primary" @click=""><el-icon>
-                  <Search />
-                </el-icon></el-button>
-            </template>
-          </el-input> -->
           <el-button type="primary" plain @click="clickToIndex" style="margin-left: 0.8rem;">首页</el-button>
           <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
         </div>
@@ -31,7 +24,8 @@
 
       <el-container style="background-color:#409EFF;">
         <el-aside width="55rem">
-          <el-carousel height="400px" :interval="3000" arrow="never" indicator-position="outside" style="margin-top: 120px;width:40rem;margin-left: 100px;;">
+          <el-carousel height="400px" :interval="3000" arrow="never" indicator-position="outside"
+            style="margin-top: 120px;width:40rem;margin-left: 100px;;">
             <el-carousel-item v-for="(image, index) in imageList" :key="index">
               <img :src="image" style="height: 100%;width:400px;">
             </el-carousel-item>
@@ -84,8 +78,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import request from '@/api/request';
+import store from '@/store';
 export default {
   name: 'UserLogin',
   data() {
@@ -94,8 +88,8 @@ export default {
         username: '',
         password: ''
       },
+      role: null,
       imageList: [
-        'https://resource.zaixiankaoshi.com/pc/login-banner.png',
         'https://resource.zaixiankaoshi.com/pc/login/banner/s1.png',
         'https://resource.zaixiankaoshi.com/pc/login/banner/s3.png',
       ]
@@ -108,7 +102,13 @@ export default {
         .then((response) => {
           // 请求成功处理
           this.$message.success('登录成功！');
-          this.$store.dispatch('login',this.loginForm.username);
+          this.role=response;
+          var userInfo = {
+            user: this.loginForm.username,
+            role: this.role
+          }
+          this.$store.dispatch('login', userInfo);
+          // console.log(this.$store.getters.getRole);
           this.$router.push('/home');
         })
         .catch((error) => {
@@ -125,9 +125,15 @@ export default {
     clickToIndex() {
       this.$router.push('/')
     },
-    clickToHome(){
+    clickToHome() {
       this.$router.push('/home')
-    }
+    },
+    clickToManage() {
+      if (!this.isAuthenticated) {
+        this.$message.error('点击登录管理题目');
+      }
+      this.$router.push('/manage')
+    },
   }
 }
 </script>

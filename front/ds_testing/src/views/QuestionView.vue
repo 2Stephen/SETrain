@@ -8,7 +8,7 @@
     </el-select>
     <el-button type="primary" @click="addQuestion">新增</el-button>
     <el-button type="success" @click="findBySearch">查询</el-button>
-    <el-button type="warning">修改</el-button>
+    <!-- <el-button type="warning">修改</el-button> -->
     <el-button type="danger" @click="delBatch">批量删除</el-button>
     <el-button type="info" style="margin-left: 80px;" @click="exportQuestionWithBankId">导出题目</el-button>
     <el-upload
@@ -367,7 +367,7 @@ export default {
       xhr.open('GET', 'http://localhost:8082/files/questionCSV', true);
       xhr.responseType = 'blob'; // 设置响应类型为 blob
 
-      xhr.onload = function () {
+      xhr.onload =() => {
         if (xhr.status === 200) {
           // 请求成功，处理文件下载
           const blob = xhr.response;
@@ -389,7 +389,7 @@ export default {
         }
       };
 
-      xhr.onerror = function () {
+      xhr.onerror =() => {
         console.error('请求发生错误');
       };
 

@@ -4,12 +4,12 @@
     <el-header
       style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
       <div style="display: flex;justify-content: flex-start;align-items: center;">
-        <div class="header-title">数据结构题库系统</div>
+        <div class="header-title">面试题库系统</div>
         <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
           style="width:30rem;display: flex;align-items: center;" default-active="2">
           <el-menu-item index="1" @click="clickToIndex" style="width:100px;">首页</el-menu-item>
           <el-menu-item index="2" @click="clickToHome" style="width:100px;">题库</el-menu-item>
-          <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
+          <el-menu-item v-if="role === 'admin'" index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
           <el-sub-menu index="4" style="width:100px;"><template #title>帮助</template>
             <el-menu-item index="4-1">快速入门</el-menu-item>
             <el-menu-item index="4-2">常见问题</el-menu-item>
@@ -85,7 +85,7 @@
                   }}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="question_bank_title" label="题目名" />
+            <el-table-column prop="question_bank_title" label="所属题库" />
             <el-table-column label="操作">
               <template #default="{ row }">
                 <el-button link type="primary" @click="viewDetails(row.id)">
@@ -96,15 +96,14 @@
           </el-table>
           <el-pagination style="display: flex;justify-content: center;margin-top: 20px;"
             v-model:current-page="currentPage" v-model:page-size="pageSize" background
-            layout="total, prev, pager, next, jumper" :total="questionSize"
-            @current-change="getallcontents" />
+            layout="total, prev, pager, next, jumper" :total="questionSize" @current-change="getallcontents" />
         </div>
 
       </el-main>
     </el-container>
 
     <el-footer class="foot">
-      © 2024 数据结构题库系统 - 版权所有
+      © 2024 面试题库系统 - 版权所有
     </el-footer>
   </el-container>
 </template>
@@ -121,6 +120,7 @@ export default {
       store: useStore(),
       isAuthenticated: computed(() => store.getters.isAuthenticated),
       user: computed(() => store.getters.getUser),
+      role: computed(() => store.getters.getRole),
 
       searchcontents: '',
       show: 'questionlist',
@@ -154,7 +154,10 @@ export default {
     clickToLogin() {
       this.$router.push('/login')
     },
-    clickToManage(){
+    clickToManage() {
+      if (!this.isAuthenticated) {
+        this.$message.error('点击登录管理题目');
+      }
       this.$router.push('/manage')
     },
     loadBank() {

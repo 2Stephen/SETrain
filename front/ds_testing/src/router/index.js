@@ -9,7 +9,6 @@ import RegisterPage from '@/views/RegisterPage.vue'
 import QuestionDetail from '@/views/QuestionDetail.vue'
 import ManageLayout from "@/views/ManageLayout.vue";
 import QuestionView from "@/views/QuestionView.vue";
-import QuestionBankView from "@/views/QuestionBankView.vue";
 
 const routes = [
   {
@@ -55,13 +54,11 @@ const routes = [
         path: '/manageQuestion',
         name: 'manageQuestion',
         component : QuestionView
-      },
-      {
-        path: '/manageQuestionBank',
-        name: 'manageQuestionBank',
-        component: QuestionBankView
       }
-    ]
+    ],
+    meta: {
+      requireAuth: true
+    }
   },
 
 ]
