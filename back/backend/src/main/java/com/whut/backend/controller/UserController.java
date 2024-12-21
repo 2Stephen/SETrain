@@ -43,6 +43,12 @@ public class UserController {
     private String nickname;
 
     @ResponseBody
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
+
+    @ResponseBody
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserData userData) {
         String username = userData.getUsername();

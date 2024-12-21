@@ -45,10 +45,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>aliyun-redis-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.2.2</version>
@@ -113,6 +109,18 @@
     </dependencyManagement>
 
     <build>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                </resource>
+                <resource>
+                    <directory>src/main/resources/static</directory> <!-- 前端构建后的文件夹 -->
+                    <targetPath>META-INF/resources/</targetPath>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                </resource>
+            </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
