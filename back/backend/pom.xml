@@ -130,7 +130,6 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.whut.backend.BackendApplication</mainClass>
-                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>

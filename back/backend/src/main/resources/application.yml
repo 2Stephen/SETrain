@@ -7,7 +7,7 @@ spring:
     url: jdbc:mysql://localhost:3306/SETrain
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-#    password: 2432757689
+    password: 123456
 
   mail:
     host: smtp.qq.com
