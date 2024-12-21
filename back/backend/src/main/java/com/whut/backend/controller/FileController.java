@@ -27,7 +27,7 @@ public class FileController {
     private QuestionService questionService;
 
     // 文件上传存储路径
-    private static final String filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/";
+    private static final String filePath = "/Users/hanlelin/Desktop/SETrain/back/backend/src/main/resources/static";
 
     /**
      * 文件上传
@@ -102,7 +102,7 @@ public class FileController {
     @GetMapping("/questionCSV")
     public void questionCSV(HttpServletResponse response) {
         //若存在先删除
-        FileUtil.del(filePath+"question.csv");
+        //FileUtil.del(filePath+"question.csv");
 
         //保存更新的csv
         questionService.generateQuestionCSV();

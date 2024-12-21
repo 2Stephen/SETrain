@@ -53,9 +53,9 @@ public class UserController {
     public ResponseEntity<String> login(@RequestBody UserData userData) {
         String username = userData.getUsername();
         String password = userData.getPassword();
-        boolean login = UserService.login(username, password);
-        if (login) {
-            return ResponseEntity.ok("Login success");
+        String role = UserService.login(username, password);
+        if (role != null) {
+            return ResponseEntity.ok(role);
         } else {
             return ResponseEntity.badRequest().body("Login failed");
         }
@@ -68,6 +68,7 @@ public class UserController {
         String password = registerData.getPassword();
         String email = registerData.getEmail();
         String captcha = registerData.getCaptcha();
+        String role = "user";
         String redisCaptcha = (String) stringRedisTemplate.opsForValue().get("email_code_"+email);
         log.info("redisCaptcha:{}", redisCaptcha);
         if(redisCaptcha == null) {
@@ -77,7 +78,7 @@ public class UserController {
         }else if(!redisCaptcha.equals(captcha)) {
             return ResponseEntity.badRequest().body("captcha error");
         }
-        boolean register = UserService.register(username, password, email);
+        boolean register = UserService.register(username, password, email, role);
         if (register) {
             return ResponseEntity.ok("register success");
         } else {

@@ -16,4 +16,6 @@ public class User {
     private String password;
     @TableField("email")
     private String email;
+    @TableField("role")
+    private String role;
 }
