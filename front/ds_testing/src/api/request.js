@@ -2,8 +2,7 @@ import axios from 'axios'
 
 // 创建一个axios对象出来
 const request = axios.create({
-    // baseURL: 'http://192.168.133.214:8082',
-    baseURL: 'http://localhost:8082',
+    baseURL: process.env.VUE_APP_BASEURL,
     timeout: 5000
 })
 

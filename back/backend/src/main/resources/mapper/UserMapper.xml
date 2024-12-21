@@ -23,8 +23,8 @@
 
     <!--注册插入用户-->
     <insert id="insert" parameterType="com.whut.backend.entity.User" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO user(username, password, email)
-        VALUES(#{username}, #{password}, #{email})
+        INSERT INTO user(username, password, email,role)
+        VALUES(#{username}, #{password}, #{email}, #{role})
     </insert>
 
     <!--根据id修改密码-->
