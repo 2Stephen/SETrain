@@ -6,3 +6,4 @@
 # Spring boot configuration
 *.yml
 back/backend/src/main/resources/application.yml
+*.yml
