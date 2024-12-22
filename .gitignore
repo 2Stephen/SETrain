@@ -4,4 +4,4 @@
 .idea/
 
 # Spring boot configuration
-application.yml
+*.yml
