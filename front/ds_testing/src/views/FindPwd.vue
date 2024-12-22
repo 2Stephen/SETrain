@@ -2,14 +2,14 @@
   <div class="common-layout">
     <el-container style="height: 100vh;">
       <el-header
-          style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
+        style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex;justify-content: flex-start;align-items: center;">
-          <div class="header-title">数据结构题库系统</div>
+          <div class="header-title">面试题库系统</div>
           <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
-                   style="width:30rem;display: flex;align-items: center;" default-active="2">
+            style="width:30rem;display: flex;align-items: center;" default-active="1">
             <el-menu-item index="1" @click="clickToIndex" style="width:100px;">首页</el-menu-item>
             <el-menu-item index="2" @click="clickToHome" style="width:100px;">题库</el-menu-item>
-            <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
+            <!-- <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item> -->
             <el-sub-menu index="4" style="width:100px;">
               <template #title>帮助</template>
               <el-menu-item index="4-1">快速入门</el-menu-item>
@@ -17,27 +17,18 @@
             </el-sub-menu>
           </el-menu>
         </div>
-
-
-
-                <div style="display: flex;justify-content: flex-end;align-items: center;">
-                    <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
-                        <template #append>
-                            <el-button type="primary" @click=""><el-icon>
-                                    <Search />
-                                </el-icon></el-button>
-                        </template>
-                    </el-input> -->
-                    <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
-                    <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
-                </div>
-            </el-header>
+        
+        <div style="display: flex;justify-content: flex-end;align-items: center;">
+          <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
+          <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
+        </div>
+      </el-header>
 
 
       <el-container style="background-color:#409EFF;">
         <el-aside width="55rem">
           <el-carousel height="400px" :interval="3000" arrow="never" indicator-position="outside"
-                       style="margin-top: 120px;width:40rem;margin-left: 100px;;">
+            style="margin-top: 120px;width:40rem;margin-left: 100px;;">
             <el-carousel-item v-for="(image, index) in imageList" :key="index">
               <img :src="image" style="height: 100%;width:400px;">
             </el-carousel-item>
@@ -51,54 +42,51 @@
             </div>
 
             <div>
-              <el-input class="input-area" v-model="findForm.email" style="width: 18.75rem"
-                        placeholder="请输入邮箱">
+              <el-input class="input-area" v-model="findForm.email" style="width: 18.75rem" placeholder="请输入邮箱"
+                :disabled="stop">
                 <template #prepend>
                   <el-icon>
-                    <Message/>
+                    <Message />
                   </el-icon>
                 </template>
               </el-input>
 
               <div style="display: flex;justify-content: center;">
-                <el-input class="input-area" v-model="findForm.captcha" style="width: 13rem"
-                          placeholder="请输入验证码">
+                <el-input class="input-area" v-model="findForm.captcha" style="width: 13rem" placeholder="请输入验证码">
                   <template #prepend>
                     <el-icon>
-                      <Key/>
+                      <Key />
                     </el-icon>
                   </template>
                 </el-input>
                 &nbsp;&nbsp;
-                <el-button type="primary" plain style="width:82px;" @click="getCAPTCHA"
-                           :disabled="showTime">
+                <el-button type="primary" plain style="width:82px;" @click="getCAPTCHA" :disabled="showTime">
                   <div v-if="!showTime">获取验证码</div>
                   <div v-if="showTime">{{ getTime }}秒</div>
                 </el-button>
               </div>
 
 
-              <el-input class="input-area" v-model="findForm.password" style="width: 18.75rem"
-                        type="password" placeholder="请输入新密码" show-password>
+              <el-input class="input-area" v-model="findForm.password" style="width: 18.75rem" type="password"
+                placeholder="请输入新密码" show-password>
                 <template #prepend>
                   <el-icon>
-                    <Lock/>
+                    <Lock />
                   </el-icon>
                 </template>
               </el-input>
 
-              <el-input class="input-area" v-model="findForm.checkpwd" style="width: 18.75rem"
-                        type="password" placeholder="请再次输入密码" show-password>
+              <el-input class="input-area" v-model="findForm.checkpwd" style="width: 18.75rem" type="password"
+                placeholder="请再次输入密码" show-password>
                 <template #prepend>
                   <el-icon>
-                    <Lock/>
+                    <Lock />
                   </el-icon>
                 </template>
               </el-input>
 
-              <el-button type="primary"
-                         style="width: 18.75rem;margin-bottom: 0.625rem;margin-top: 0.5rem;"
-                         @click="find">邮箱验证
+              <el-button type="primary" style="width: 18.75rem;margin-bottom: 0.625rem;margin-top: 0.5rem;"
+                @click="find">邮箱验证
               </el-button>
 
             </div>
@@ -113,7 +101,6 @@
 
 <script>
 import request from '@/api/request';
-import axios from 'axios';
 
 export default {
   name: 'FindPwd',
@@ -121,6 +108,7 @@ export default {
     return {
       getTime: 60,
       showTime: false,
+      stop: false,
       findForm: {
         email: '',
         captcha: '',
@@ -128,7 +116,6 @@ export default {
         checkpwd: ''
       },
       imageList: [
-        'https://resource.zaixiankaoshi.com/pc/login-banner.png',
         'https://resource.zaixiankaoshi.com/pc/login/banner/s1.png',
         'https://resource.zaixiankaoshi.com/pc/login/banner/s3.png',
       ]
@@ -151,6 +138,9 @@ export default {
 
 
     clickToManage() {
+      if (!this.isAuthenticated) {
+        this.$message.error('点击登录管理题目');
+      }
       this.$router.push('/manage')
     },
 
@@ -163,6 +153,7 @@ export default {
       }).then((response) => {
         // 请求成功处理
         this.$message.success('验证码发送成功！')
+        this.stop = true;
         let timer = setInterval(() => {
           this.getTime -= 1;
           if (this.getTime <= 0) {
@@ -202,16 +193,16 @@ export default {
       }
       // 发送邮箱验证请求
       request.post('/user/changepwd', curForm)
-          .then((response) => {
-            // 请求成功处理
-            this.$message.success('密码修改成功！');
-            this.$router.push('/login');
-          })
-          .catch((error) => {
-            // 请求失败处理
-            console.error(error);
-            this.$message.error('验证码错误！');
-          });
+        .then((response) => {
+          // 请求成功处理
+          this.$message.success('密码修改成功！');
+          this.$router.push('/login');
+        })
+        .catch((error) => {
+          // 请求失败处理
+          console.error(error);
+          this.$message.error('验证码错误！');
+        });
 
     },
   }

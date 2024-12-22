@@ -1,54 +1,44 @@
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: mianshiya
--- ------------------------------------------------------
--- Server version	8.0.40
+/*
+ Navicat Premium Data Transfer
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+ Source Server         : class
+ Source Server Type    : MySQL
+ Source Server Version : 80035
+ Source Host           : localhost:3306
+ Source Schema         : setrain
 
---
--- Table structure for table `question_bank`
---
+ Target Server Type    : MySQL
+ Target Server Version : 80035
+ File Encoding         : 65001
 
+ Date: 21/12/2024 00:09:41
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for question_bank
+-- ----------------------------
 DROP TABLE IF EXISTS `question_bank`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `question_bank` (
+CREATE TABLE `question_bank`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `title` varchar(256) DEFAULT NULL COMMENT '标题',
-  `description` text COMMENT '描述',
-  `picture` varchar(2048) DEFAULT NULL COMMENT '图片',
-  PRIMARY KEY (`id`),
-  KEY `idx_title` (`title`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='题库';
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `title` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标题',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_title`(`title` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题库' ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `question_bank`
---
+-- ----------------------------
+-- Records of question_bank
+-- ----------------------------
+INSERT INTO `question_bank` VALUES (3, 'C++高级特性');
+INSERT INTO `question_bank` VALUES (1, 'Java编程基础');
+INSERT INTO `question_bank` VALUES (2, 'Python编程实践');
+INSERT INTO `question_bank` VALUES (7, '人工智能前沿');
+INSERT INTO `question_bank` VALUES (8, '操作系统原理');
+INSERT INTO `question_bank` VALUES (6, '数据库技术精粹');
+INSERT INTO `question_bank` VALUES (5, '测试技术大全');
+INSERT INTO `question_bank` VALUES (9, '计算机网络基础');
+INSERT INTO `question_bank` VALUES (4, '项目管理技巧');
 
-LOCK TABLES `question_bank` WRITE;
-/*!40000 ALTER TABLE `question_bank` DISABLE KEYS */;
-INSERT INTO `question_bank` VALUES (1,'Java编程基础','包含Java编程基础问题的题库，适合初学者。','url_to_java_image.png'),(2,'Python编程实践','涵盖Python编程实践问题的题库，适合中级开发者。','url_to_python_image.png'),(3,'C++高级特性','专注于C++高级特性的题库，适合高级开发者。','url_to_cpp_image.png'),(4,'项目管理技巧','包含项目管理技巧的题库，适合项目经理和团队领导。','url_to_project_image.png'),(5,'测试技术大全','涵盖测试技术的题库，适合测试工程师。','url_to_test_image.png'),(6,'数据库技术精粹','专注于数据库技术的题库，适合数据库管理员。','url_to_db_image.png'),(7,'人工智能前沿','探讨人工智能前沿问题的题库，适合AI研究人员和开发者。','url_to_ai_image.png'),(8,'操作系统原理','包含操作系统原理问题的题库，适合对操作系统感兴趣的学习者。','url_to_os_image.png'),(9,'计算机网络基础','涵盖计算机网络基础问题的题库，适合网络技术爱好者和专业人士。','url_to_network_image.png');
-/*!40000 ALTER TABLE `question_bank` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-12-12 14:35:01
+SET FOREIGN_KEY_CHECKS = 1;
