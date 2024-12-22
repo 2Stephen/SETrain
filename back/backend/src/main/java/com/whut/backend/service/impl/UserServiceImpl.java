@@ -17,7 +17,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
 
     @Override
-    public boolean login(String username, String password) {
+    public String login(String username, String password) {
 
         //MD5签名前
         log.info("MD5加密前：{}", password);
@@ -28,12 +28,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         User user = userMapper.login(username, password);
         if(user != null) {
-            return true;
+            return user.getRole();
         }
-        return false;
+        return null;
     }
     @Override
-    public boolean register(String username, String password, String email){
+    public boolean register(String username, String password, String email, String role) {
         User user = userMapper.findByUsername(username);
         if(user == null){
             user = userMapper.findByEmail(email);
@@ -44,6 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 password = DigestUtils.md5DigestAsHex(password.getBytes());
                 user.setPassword(password);
                 user.setUsername(username);
+                user.setRole(role);
                 int res = userMapper.insert(user);
                 return res == 1;
             }

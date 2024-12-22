@@ -5,9 +5,9 @@ import com.whut.backend.entity.User;
 
 public interface UserService extends IService<User> {
     // login
-    boolean login(String username, String password);
+    String login(String username, String password);
     // register
-    boolean register(String username, String password, String email);
+    boolean register(String username, String password, String email, String role);
     // 获取是否存在邮箱
     boolean containsEmail(String email);
     // 修改密码

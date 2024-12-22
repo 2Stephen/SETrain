@@ -27,7 +27,7 @@ public class FileController {
     private QuestionService questionService;
 
     // 文件上传存储路径
-    private static final String filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/";
+    private static final String filePath = "/var/lib/mysql-files/";
 
     /**
      * 文件上传
@@ -129,7 +129,7 @@ public class FileController {
                 os.close();
             }
         } catch (Exception e) {
-            System.out.println("文件下载失败");
+            System.out.println(e);
         }
     }
 

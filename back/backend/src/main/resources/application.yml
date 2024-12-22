@@ -1,7 +1,6 @@
 server:
-
   port: 8082
-  address: 192.168.133.214
+  address: 0.0.0.0
 
 spring:
   datasource:
@@ -9,14 +8,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-
-
   mail:
     host: smtp.qq.com
-    protocol: smtp
+    protocol: smtps
     default-encoding: UTF-8
-    username: 2432757689@qq.com
-    password: dwvhnjzitraudiej
+    username: @qq.com
+    password:
     nickname: SETrain
     properties:
       mail.smtp.auth: true #启用SMTP服务器的身份验证，这是为了确保只有合法用户可以发送邮件。
@@ -34,8 +31,8 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml  # MyBatis映射文件的路径
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 日志输出（可选）
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 日志输出（可选）
 
 
 
