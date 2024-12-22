@@ -14,7 +14,7 @@
     <el-upload
         class="upload-demo"
 
-        action="http://localhost:8082/files/upload"
+        action="http://47.115.201.217:8082/files/upload"
         :on-success="handleAvatarSuccess"
         :headers="myHeaders"
 
@@ -364,7 +364,7 @@ export default {
       //TODO 改IP地址
 
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', 'http://localhost:8082/files/questionCSV', true);
+      xhr.open('GET', 'http://47.115.201.217:8082/files/questionCSV', true);
       xhr.responseType = 'blob'; // 设置响应类型为 blob
 
       xhr.onload =() => {

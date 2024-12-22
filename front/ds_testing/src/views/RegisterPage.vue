@@ -162,7 +162,7 @@ export default {
             this.$router.push('/manage')
         },
         getCAPTCHA() {
-            const reg = /^([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4})$/;
+            const reg = /^([a-zA-Z0-9]+(\_\.[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4})$/;
             if (!reg.test(this.registerForm.email)) {
                 this.$message.error('邮箱格式不正确！');
                 return;
