@@ -1,11 +1,11 @@
 <template>
   <el-container style="height: 100vh;">
     <el-header
-        style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
+      style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
       <div style="display: flex;justify-content: flex-start;align-items: center;">
-        <div class="header-title">数据结构题库系统</div>
+        <div class="header-title">面试题库系统</div>
         <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
-                 style="width:30rem;display: flex;align-items: center;" default-active="3">
+          style="width:30rem;display: flex;align-items: center;" default-active="3">
           <el-menu-item index="1" @click="clickToIndex" style="width:100px;">首页</el-menu-item>
           <el-menu-item index="2" @click="clickToHome" style="width:100px;">题库</el-menu-item>
           <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
@@ -16,17 +16,11 @@
           </el-sub-menu>
         </el-menu>
       </div>
-
-      <div style="display: flex;justify-content: flex-end;align-items: center;">
-        <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
-          <template #append>
-            <el-button type="primary" @click="">
-              <el-icon>
-                <Search/>
-              </el-icon>
-            </el-button>
-          </template>
-        </el-input>
+      <div v-if="isAuthenticated">
+        欢迎，{{ user }}
+        <el-button type="primary" plain @click="loginout" style="margin-left: 0.8rem;">退出登录</el-button>
+      </div>
+      <div v-if="!isAuthenticated">
         <el-button type="primary" plain @click="clickToLogin" style="margin-left: 0.8rem;">登录</el-button>
         <el-button type="primary" @click="clickToRegister" style="margin-right: 0.625rem;">注册</el-button>
       </div>
@@ -34,48 +28,38 @@
 
     <el-container>
       <el-aside width="220px" style="background-color: rgb(235, 245, 255);">
-        <el-menu
-            ref="menu"
-            default-active="1"
-            class="el-menu-vertical-demo"
-            router
-        >
-
-          <el-menu-item index="/manageQuestion">
+        <el-menu @select="handleMenuSelect" default-active="1" background-color="rgb(235, 245, 255)"
+          text-color="#606266" router>
+          <el-menu-item index="1">
             <el-icon><icon-menu /></el-icon>
             <span>题目管理</span>
           </el-menu-item>
-
-          <el-menu-item index="/manageQuestionBank">
-            <el-icon><setting /></el-icon>
-            <span>题库管理</span>
-          </el-menu-item>
-
-          <el-menu-item index="3" disabled>
-            <el-icon><document /></el-icon>
-            <span>用户管理</span>
-          </el-menu-item>
-
         </el-menu>
       </el-aside>
 
       <el-main>
-        <router-view/>
+        <router-view />
       </el-main>
 
     </el-container>
     <el-footer class="foot">
-      © 2024 数据结构题库系统 - 版权所有
+      © 2024 面试题库系统 - 版权所有
     </el-footer>
 
   </el-container>
 </template>
 
 <script>
+import store from '@/store';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
   name: "ManagePage.vue",
   data() {
     return {
+      store: useStore(),
+      isAuthenticated: computed(() => store.getters.isAuthenticated),
+      user: computed(() => store.getters.getUser),
       search: ''
     }
   },
@@ -102,17 +86,14 @@ export default {
     clickToRegister() {
       this.$router.push('/register')
     },
-    // handleMenuSelect(index) {
-    //   console.log(index)
-    //   switch (index) {
-    //     case '1':
-    //       this.$router.push('/question')
-    //       break
-    //     case '2':
-    //       this.$router.push('/questionBank')
-    //       break
-    //   }
-    // }
+    handleMenuSelect() {
+      this.$router.push('/manageQuestion')
+    },
+    loginout() {
+      this.$store.dispatch('logout');
+      this.$message.success('退出登录成功！');
+      this.$router.push('/');
+    },
 
   }
 }

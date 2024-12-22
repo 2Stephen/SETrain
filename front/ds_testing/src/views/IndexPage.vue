@@ -5,12 +5,12 @@
       <el-header
         style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex;justify-content: flex-start;align-items: center;">
-          <div class="header-title">数据结构题库系统</div>
+          <div class="header-title">面试题库系统</div>
           <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
             style="width:30rem;display: flex;align-items: center;" default-active="1">
             <el-menu-item index="1" @click="clickToIndex">首页</el-menu-item>
             <el-menu-item index="2" @click="clickToHome">题库</el-menu-item>
-            <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
+            <el-menu-item v-if="role === 'admin'" index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item>
             <el-sub-menu index="4"><template #title>帮助</template>
               <el-menu-item index="4-1">快速入门</el-menu-item>
               <el-menu-item index="4-2">常见问题</el-menu-item>
@@ -20,13 +20,6 @@
         </div>
 
         <div style="display: flex;justify-content: flex-end;align-items: center;">
-          <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
-            <template #append>
-              <el-button type="primary" @click=""><el-icon>
-                  <Search />
-                </el-icon></el-button>
-            </template>
-          </el-input> -->
           <div v-if="isAuthenticated">
             欢迎，{{ user }}
             <el-button type="primary" plain @click="loginout" style="margin-left: 0.8rem;">退出登录</el-button>
@@ -41,11 +34,14 @@
       <el-container style="background-color: rgb(172,219,252);">
         <el-aside style="display: flex;justify-content: center;width: 25rem;margin-left: 100px;">
           <div style="margin-top: 150px;text-align: left;">
-            <div style="font-size: 28px;font-weight: bold;">数据结构</div>
+            <div style="font-size: 28px;font-weight: bold;">面试相关</div>
             <div style="font-size: 40px;font-weight: bold;">免费在线刷题平台</div>
             <div style="font-size:18px;margin-bottom: 5px;margin-top: 5px;">在线练习,让考试更简单</div>
-            <div style="margin-top: 20px;">
+            <div v-if="!isAuthenticated" style="margin-top: 20px;">
               <el-button type="primary" size="large" @click="clickToRegister">免费注册</el-button>
+            </div>
+            <div v-if="isAuthenticated" style="margin-top: 20px;">
+              <el-button type="primary" size="large" @click="clickToHome">去刷题</el-button>
             </div>
           </div>
         </el-aside>
@@ -60,7 +56,7 @@
       </el-container>
 
       <el-footer class="foot">
-        © 2024 数据结构题库系统 - 版权所有
+        © 2024 面试题库系统 - 版权所有
       </el-footer>
 
     </el-container>
@@ -78,10 +74,10 @@ export default {
       store : useStore(),
       isAuthenticated: computed(() => store.getters.isAuthenticated),
       user: computed(() => store.getters.getUser),
+      role: computed(() => store.getters.getRole),
 
       index: 1,
       imageList: [
-        'https://www.kaoshiyun.com/index/style/images/2023banner_01.svg',
         'https://www.kaoshiyun.com/index/style/images/2023banner_03.svg',
         'https://www.kaoshiyun.com/index/style/images/2023banner_04.svg',
       ]

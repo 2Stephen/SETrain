@@ -4,26 +4,20 @@
             <el-header
                 style="background-color: rgb(172,219,252); color: rgb(51.2, 126.4, 204); display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex;justify-content: flex-start;align-items: center;">
-                    <div class="header-title">数据结构题库系统</div>
+                    <div class="header-title">面试题库系统</div>
                     <el-menu ellipsis mode="horizontal" background-color="rgb(172,219,252)" text-color="rgb(53,53,53)"
                         style="width:30rem;display: flex;align-items: center;" default-active="1">
                         <el-menu-item index="1" @click="clickToIndex">首页</el-menu-item>
                         <el-menu-item index="2" @click="clickToHome">题库</el-menu-item>
-                        <el-sub-menu index="3"><template #title>帮助</template>
-                            <el-menu-item index="3-1">快速入门</el-menu-item>
-                            <el-menu-item index="3-2">常见问题</el-menu-item>
+                        <!-- <el-menu-item index="3" @click="clickToManage" style="width:100px;">管理</el-menu-item> -->
+                        <el-sub-menu index="4" style="width:100px;"><template #title>帮助</template>
+                            <el-menu-item index="4-1">快速入门</el-menu-item>
+                            <el-menu-item index="4-2">常见问题</el-menu-item>
                         </el-sub-menu>
                     </el-menu>
                 </div>
 
                 <div style="display: flex;justify-content: flex-end;align-items: center;">
-                    <!-- <el-input v-model="search" style="width: 12.5rem" placeholder="搜索题目" class="input-with-select">
-                        <template #append>
-                            <el-button type="primary" @click=""><el-icon>
-                                    <Search />
-                                </el-icon></el-button>
-                        </template>
-                    </el-input> -->
                     <el-button type="primary" plain @click="clickToIndex" style="margin-left: 0.8rem;">首页</el-button>
                     <el-button type="primary" @click="clickToLogin" style="margin-right: 0.625rem;">登录</el-button>
                 </div>
@@ -145,7 +139,6 @@ export default {
             },
             checked: false,
             imageList: [
-                'https://resource.zaixiankaoshi.com/pc/login-banner.png',
                 'https://resource.zaixiankaoshi.com/pc/login/banner/s1.png',
                 'https://resource.zaixiankaoshi.com/pc/login/banner/s3.png',
             ]
@@ -162,8 +155,14 @@ export default {
         clickToHome() {
             this.$router.push('/home')
         },
+        clickToManage() {
+            if (!this.isAuthenticated) {
+                this.$message.error('点击登录管理题目');
+            }
+            this.$router.push('/manage')
+        },
         getCAPTCHA() {
-            const reg = /^([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4})$/;
+            const reg = /^([a-zA-Z0-9]+(\_\.[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4})$/;
             if (!reg.test(this.registerForm.email)) {
                 this.$message.error('邮箱格式不正确！');
                 return;
@@ -251,25 +250,25 @@ export default {
 }
 
 .header-title {
-  font-size: 22px;
-  font-weight: bold;
-  margin-left: 0.625rem;
-  margin-right: 3.125rem;
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 0.625rem;
+    margin-right: 3.125rem;
 }
 
 .el-menu--horizontal.el-menu {
-  border-bottom: 0px;
+    border-bottom: 0px;
 }
 
 .input-with-select .el-input-group__prepend {
-  background-color: var(--el-fill-color-blank);
+    background-color: var(--el-fill-color-blank);
 }
 
 .el-menu-item {
-  width: 100px;
+    width: 100px;
 }
 
 .el-sub-menu {
-  width: 100px;
+    width: 100px;
 }
 </style>
